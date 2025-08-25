@@ -107,7 +107,7 @@ def vicrop_qa_hf(model_name, method_name, image_path, question, model, processor
 
         return ori_generation, multi_generation, bbox
 
-def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, image_processor, short_question):
+def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, image_processor, short_question, look_rate):
     """
     Performs visual cropping and question answering using different attention methods.
     
@@ -160,20 +160,20 @@ def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, i
         
         # print(input_ids)
         # print(type(input_ids))
-        ori_generate_ids = model.generate(
-                input_ids,
-                images=image_tensor,
-                do_sample=False,
-                max_new_tokens=20,
-            )
-        ori_generation = tokenizer.batch_decode(ori_generate_ids, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
+        # ori_generate_ids = model.generate(
+        #         input_ids,
+        #         images=image_tensor,
+        #         do_sample=False,
+        #         max_new_tokens=20,
+        #     )
+        # ori_generation = tokenizer.batch_decode(ori_generate_ids, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
 
         # print(ori_generation)
 
         # breakpoint()
         del image_tensor
         del input_ids
-        del ori_generate_ids
+        # del ori_generate_ids
         torch.cuda.empty_cache()
 
 
@@ -181,7 +181,7 @@ def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, i
             att_map = gradient_attention_llava(image, short_prompt, general_prompt, model, tokenizer, image_processor)
             bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
             att_1d = att_map.reshape(-1)
-            mask = att_from_att_image_adaptive(att_1d)
+            mask = att_from_att_image_adaptive(att_1d,look_rate)
 
         elif method_name == 'grad_att_high':
             att_maps = high_res(gradient_attention_llava, image, short_prompt, general_prompt, model, tokenizer, image_processor)
@@ -207,21 +207,21 @@ def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, i
             grads = high_res(pure_gradient_llava, image, short_prompt, general_prompt, model, tokenizer, image_processor)
             bbox = bbox_from_att_image_adaptive(grads, image.size, bbox_size)
 
-        crop_image = image.crop(bbox)
+        # crop_image = image.crop(bbox)
 
-        multi_image_tensor = process_images([image, crop_image], image_processor, model.config)
-        multi_image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in multi_image_tensor]
-        multi_prompt = f"<image><image>\nUSER: {question} Answer the question using a single word or phrase.\nASSISTANT:"
-        multi_input_ids = tokenizer_image_token(multi_prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
+        # multi_image_tensor = process_images([image, crop_image], image_processor, model.config)
+        # multi_image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in multi_image_tensor]
+        # multi_prompt = f"<image><image>\nUSER: {question} Answer the question using a single word or phrase.\nASSISTANT:"
+        # multi_input_ids = tokenizer_image_token(multi_prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
 
-        multi_generation = model.generate(
-                multi_input_ids,
-                images=multi_image_tensor,
-                do_sample=False,
-                max_new_tokens=20,
-            )
-        multi_generation = tokenizer.batch_decode(multi_generation, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
-
+        # multi_generation = model.generate(
+        #         multi_input_ids,
+        #         images=multi_image_tensor,
+        #         do_sample=False,
+        #         max_new_tokens=20,
+        #     )
+        # multi_generation = tokenizer.batch_decode(multi_generation, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
+        ori_generation, multi_generation = "", ""
         return ori_generation, multi_generation, bbox, mask
     
     # elif model_name == "blip":

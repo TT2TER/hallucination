@@ -135,7 +135,8 @@ def eval_model(args):
             model=model,
             tokenizer=tokenizer,
             image_processor=image_processor,
-            short_question=args.short_question if hasattr(args, "short_question") else question
+            short_question=args.short_question if hasattr(args, "short_question") else question,
+            look_rate=args.look_rate
         )
         # print(mask)
         image = Image.open(image_path).convert("RGB")
@@ -211,7 +212,7 @@ if __name__ == "__main__":
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--top_p", type=float, default=None)
     parser.add_argument("--num_beams", type=int, default=1)
-    parser.add_argument("--max-new-tokens", type=int, default=1)
+    parser.add_argument("--max-new-tokens", type=int, default=1024)
 
     # MemVR
     parser.add_argument("--cuda-device", type=str, default="cuda:0")
@@ -221,6 +222,7 @@ if __name__ == "__main__":
     parser.add_argument("--starting-layer", type=int, default=5)
     parser.add_argument("--ending-layer", type=int, default=16)
     parser.add_argument("--apply-memvr", type=str, default='default')
+    parser.add_argument("--look-rate", type=int, default=25)
     args = parser.parse_args()
 
     eval_model(args)

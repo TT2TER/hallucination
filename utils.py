@@ -58,7 +58,7 @@ def high_pass_filter(image, resolusion, km=7, kh=3, reduce=True):
     return h_brightness
 
 
-def att_from_att_image_adaptive(att_map):
+def att_from_att_image_adaptive(att_map,look_rate):
     """
     生成一个 attention mask：大于等于平均值的为 1，小于平均值的为 0。
 
@@ -70,10 +70,18 @@ def att_from_att_image_adaptive(att_map):
     """
 
     # 计算 attention 平均值
-    avg_att = np.mean(att_map)
+    # avg_att = np.mean(att_map)
 
-    # 生成 mask：大于等于平均值设为 1，小于设为 0
-    mask = np.where(att_map >= avg_att, 1, 0)
+    # # 生成 mask：大于等于平均值设为 1，小于设为 0
+    # mask = np.where(att_map >= avg_att, 1, 0)
+
+    # return mask
+    # 计算前 25% 阈值
+    rate=100-look_rate
+    threshold = np.percentile(att_map, rate)  # 75百分位数，即前25%最大值
+
+    # 生成 mask：大于等于阈值设为 1，否则设为 0
+    mask = np.where(att_map >= threshold, 1, 0)
 
     return mask
 

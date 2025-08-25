@@ -34,6 +34,7 @@ method_name = 'grad_att'   #pure_grad有问题，我也没仔细看论文原理�
 image_path = 'images/demo1.png'
 question = 'what is the date of the photo?'
 short_question = 'what is the date of the photo?'
+look_rate=25
 
 # MemVR 这句话一定要有
 transformers.models.llama.modeling_llama.LlamaMLP = LlamaMLP
@@ -46,7 +47,7 @@ tokenizer, model, image_processor, max_length = load_pretrained_model(
     device_map = device,
     ) # Add any other thing you want to pass in llava_model_args
 
-ori_answer, crop_answer, bbox, mask = vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, image_processor, short_question)
+ori_answer, crop_answer, bbox, mask = vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, image_processor, short_question, look_rate)
 
 # model = LlavaForConditionalGeneration.from_pretrained(hf_model_name,
 #                                                      revision=revision, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation="eager").to('cuda')
