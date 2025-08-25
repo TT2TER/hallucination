@@ -177,7 +177,7 @@ def forward(
     # if visual_token_mask is not None:
     #     self.layers[0].mlp.visual_token_mask = visual_token_mask
 
-
+    past_entropy=0
     for decoder_layer in self.layers:
         # print("/n calculating hidden states at layer: ", layer)
         if output_hidden_states:
@@ -233,6 +233,8 @@ def forward(
         formatted_entropy = f"{entropy:.3f}"
 
 
+
+
         # round n+1
         # vision_retracing_sign is true, meaning that the visual token has been added. Now, clear the adaptation channel, reset the adpt_sign and vision_retracing_sign.
         if vision_retracing_sign == True and apply_memvr:
@@ -249,7 +251,7 @@ def forward(
         # round n
         # calculate the entropy of the top 10 logits. if the entropy is greater than the threshold, and the visual retracing event is not happening, and the layer is within the range of starting and ending layer, then add the visual token to the next layer with adaptation channel
         # initialize the adaptation channel with the visual token
-        if entropy > entropy_threshold and visual_retracing_event == False and layer > starting_layer and layer < ending_layer and apply_memvr: #激活重看极致
+        if entropy-past_entropy > entropy_threshold and visual_retracing_event == False and layer > starting_layer and layer < ending_layer and apply_memvr: #激活重看极致
             
             vision_retracing_sign = True
             visual_retracing_event = True #确保只触发一次
@@ -272,6 +274,8 @@ def forward(
         # print("Extracted Indices of top 10 largest scores:", formatted_top_k_indices)
         # print("Probabilities of top 10 logits:", formatted_probabilities)
         # print("Entropy of top 10 logits:", formatted_entropy, "\n")
+
+        past_entropy = entropy
         entropy_list.append(formatted_entropy)
         layer += 1
         # print(f"Layer {layer} - Entropy: {formatted_entropy}")
