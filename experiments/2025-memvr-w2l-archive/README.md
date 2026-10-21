@@ -82,6 +82,16 @@
 
 单元级证据见 [`evidence/notebook-cells.json`](evidence/notebook-cells.json)，单元编号从 0 开始。
 
+### 补充的转换脚本与编辑历史
+
+最终检查扩展到独立 Transformers 目录、VS Code 编辑历史和 IPython 输入记录，补存于 [`supplementary/`](supplementary/README.md)：
+
+- 两份新增权重转换脚本：`convert_auto.py`、`convert_llava_weights_to_hf_local.py`。
+- 27 个编辑器代码快照，包含当前源码未保留的 `local_image` 编码与视觉特征拼接草稿。其中一份推理脚本快照语法不完整。
+- 27 条 IPython 交互输入，保留会话号和行号；输入记录的执行结果需由其他材料确认。
+
+第三方个人示例目录已替换为占位符，原始与公开副本的校验值分别登记在 `supplementary/source-manifest.json`。隐私检查范围和结果见 [`evidence/supplementary-privacy-check.json`](evidence/supplementary-privacy-check.json)。
+
 ## 4. 找到的实验输出与证据范围
 
 `results/MME/` 保存服务器已有的 15 个额外文件，它们均不在服务器现有的原始 `eval.zip` 结果内容中：
@@ -104,6 +114,7 @@ github-main-overlay/          归档前 main 相对 LLaVA 基线的 38 个 Pytho
 patches/                      分别对照 LLaVA、MemVR、Where to Look 和各分支的差异
 results/MME/                  15 个既存结果文件
 evidence/                     来源、版本、单元比较、结果行数及环境包记录
+supplementary/                两份转换脚本、27 个编辑快照和27 条交互输入
 DATA_RESTORE.md                三个公开 ZIP 的下载地址、校验值与恢复方法
 tools/restore_data.py          按内容指纹恢复和核验评测资料
 licenses/                     上游许可文本及 Where to Look 的原始说明
@@ -132,6 +143,8 @@ CHECKSUMS.sha256               本目录文件的 SHA-256 校验表
 环境表来自安装元数据，Notebook 的 kernel 和版本输出属于其保存时的历史状态。归档过程只读取服务器文件，在本地检查传输哈希、上游基线、补丁恢复和结果结构；本轮使用原有实验代码，运行验证范围详见 [`evidence/verification.json`](evidence/verification.json)。
 
 本目录保存代码差异、Notebook 和上述结果。三个公开数据 ZIP 按归档决策保留下载地址与逐文件恢复映射，详见 [数据恢复说明](DATA_RESTORE.md)。恢复工具已通过服务器只读输入核对和本地恢复测试，范围与结果见 [`evidence/recovery-verification.json`](evidence/recovery-verification.json)。模型权重和完整 Conda 目录属于恢复时重新准备的环境材料。
+
+最终补漏核对结果见 [`evidence/final-audit.json`](evidence/final-audit.json)。新增历史资料与当前源码分别保存，便于区分工作区最终状态和调试过程。
 
 ## 7. 来源与署名
 

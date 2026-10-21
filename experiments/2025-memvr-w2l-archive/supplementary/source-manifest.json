@@ -1,0 +1,232 @@
+{
+  "files": [
+    {
+      "archive_path": "standalone-transformers/convert_auto.py",
+      "source_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "source_sha256": "4b5a21ea1335e5a8e9e31ff13799212bcbf6cfc677f96f19daa8613fdaece4bd",
+      "sha256": "a0eed2f755c6d62ae31d9d1b2e92519bdc6adbfb7358da8838152fde3ebcb02f"
+    },
+    {
+      "archive_path": "standalone-transformers/convert_llava_weights_to_hf_local.py",
+      "source_path": "transformers-4.40.0/src/transformers/models/llava/convert_llava_weights_to_hf_local.py",
+      "source_sha256": "93b69afcb927b691c7ddc132ac680d64f896ebad879153eac9d2dba2bc6a34a6",
+      "sha256": "0a11283a89a92f2d861f90c69a90c32f6ea3c4abe0a20c3707b41c7acc09521f"
+    },
+    {
+      "archive_path": "editor-history/-1f3e8615/YYjI.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1753178763460,
+      "source_sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b",
+      "sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b"
+    },
+    {
+      "archive_path": "editor-history/-29f932b5/7IlO.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1752285807139,
+      "source_sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b",
+      "sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b"
+    },
+    {
+      "archive_path": "editor-history/-29f932b5/JqhI.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1752286153483,
+      "source_sha256": "92f249bfd6e42a4ba9398184699ae65369039891a6cce3299313c3ae0af58f3e",
+      "sha256": "92f249bfd6e42a4ba9398184699ae65369039891a6cce3299313c3ae0af58f3e"
+    },
+    {
+      "archive_path": "editor-history/-29f932b5/E8Tr.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1752286459776,
+      "source_sha256": "595fccb4ffc9e685d478a6ec604a3640c2f90bbbea1162f73bc6e71b987bbc2a",
+      "sha256": "595fccb4ffc9e685d478a6ec604a3640c2f90bbbea1162f73bc6e71b987bbc2a"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/db9x.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753188482567,
+      "source_sha256": "8704f90c2082a0beeb1feebe10fae222a3621c8d088f0c59d92ff8769d266b02",
+      "sha256": "8704f90c2082a0beeb1feebe10fae222a3621c8d088f0c59d92ff8769d266b02"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/rohJ.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753189193432,
+      "source_sha256": "6063e381a236b0378f8f6579b191b9b741ff09907e011e91de21da48ac0e00f4",
+      "sha256": "6063e381a236b0378f8f6579b191b9b741ff09907e011e91de21da48ac0e00f4"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/bs2c.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753189294374,
+      "source_sha256": "990f5154908ab2ca5872f20934f65e5021cc0eaba89eae64a66fe309bc187d89",
+      "sha256": "990f5154908ab2ca5872f20934f65e5021cc0eaba89eae64a66fe309bc187d89"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/kaA3.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753189470105,
+      "source_sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d",
+      "sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/hk6Y.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753190229660,
+      "source_sha256": "c4b31eefa1ee4e02e65db92535bdd245668cb14d378eb2a45d4d8ae365d64bcb",
+      "sha256": "c4b31eefa1ee4e02e65db92535bdd245668cb14d378eb2a45d4d8ae365d64bcb"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/bYng.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753190288642,
+      "source_sha256": "f52061b795a267d213a57db9173647f45114c280b3398c749721fc70124e3705",
+      "sha256": "f52061b795a267d213a57db9173647f45114c280b3398c749721fc70124e3705"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/FTwK.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753190308353,
+      "source_sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d",
+      "sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/KV3L.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753190503744,
+      "source_sha256": "6e310ddcd53214490ca43bfcc7e3c42b8081037413b2ff657aafae14efc0f9a6",
+      "sha256": "6e310ddcd53214490ca43bfcc7e3c42b8081037413b2ff657aafae14efc0f9a6"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/t8bC.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753190603842,
+      "source_sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d",
+      "sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d"
+    },
+    {
+      "archive_path": "editor-history/2152b0e0/oQPV.py",
+      "original_project_path": "LLaVA/memvr.py",
+      "timestamp_unix_ms": 1753193931861,
+      "source_sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d",
+      "sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d"
+    },
+    {
+      "archive_path": "editor-history/56cc833f/72fs.py",
+      "original_project_path": "LLaVA/llava/model/language_model/llava_llama.py",
+      "timestamp_unix_ms": 1752280361401,
+      "source_sha256": "c596d4666876e28b7100344f2602f4b493936d16e8716431c520aa69157f6553",
+      "sha256": "c596d4666876e28b7100344f2602f4b493936d16e8716431c520aa69157f6553"
+    },
+    {
+      "archive_path": "editor-history/56cc833f/ejbN.py",
+      "original_project_path": "LLaVA/llava/model/language_model/llava_llama.py",
+      "timestamp_unix_ms": 1752281761597,
+      "source_sha256": "063bcb8a8a7300a6f1252b4a2f3b74066169f61320f83e4241452aea36202075",
+      "sha256": "063bcb8a8a7300a6f1252b4a2f3b74066169f61320f83e4241452aea36202075"
+    },
+    {
+      "archive_path": "editor-history/-1098620c/GKDr.sh",
+      "original_project_path": "LLaVA/eval_scripts/llava/mme.sh",
+      "timestamp_unix_ms": 1753257308844,
+      "source_sha256": "be5da418a661b3cde03ec4e8657390db305f42bed717dc0846c4482d78d0f01e",
+      "sha256": "be5da418a661b3cde03ec4e8657390db305f42bed717dc0846c4482d78d0f01e"
+    },
+    {
+      "archive_path": "editor-history/-2711cda/wHcC.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "timestamp_unix_ms": 1753270310338,
+      "source_sha256": "d56b12ed4334af1f07cbabe921ab2c9c60157ddbb59a4aaae478f92e553d0dca",
+      "sha256": "386d42437262d6aef1b0d71192dd1afc26ccfa15792f52d4a95b3a50e229d1a8"
+    },
+    {
+      "archive_path": "editor-history/2a87dbb9/YzsX.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "timestamp_unix_ms": 1753434837864,
+      "source_sha256": "62ffc651f948a67c766bcc34fe2f7aa218ba8fd81701717a46a6316c3052e7bf",
+      "sha256": "177fe6e0a5a862d959ee42159d0ec27022b58c4c491aaff65a5dfce67acd8f8f"
+    },
+    {
+      "archive_path": "editor-history/2a87dbb9/J88h.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "timestamp_unix_ms": 1753436053412,
+      "source_sha256": "eeee052ad32b2b56946bae1de929f19c56a725b1c4e4241d136f6802e9f48fd4",
+      "sha256": "a41a8a1b9e38c9aef771b39d900528181b32ae16fa43a510e921f4b8f4b4fcfb"
+    },
+    {
+      "archive_path": "editor-history/2a87dbb9/8Yr7.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "timestamp_unix_ms": 1753436218194,
+      "source_sha256": "20a801b15ef073a4129e36ddf8e079a760f21dd0267e32533442978906ca2159",
+      "sha256": "753149bb1b35fc98d979cff96eb3fb46edb57ccca54812af1d73ed7b9690763d"
+    },
+    {
+      "archive_path": "editor-history/2a87dbb9/tsfa.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_auto.py",
+      "timestamp_unix_ms": 1753436905102,
+      "source_sha256": "4b5a21ea1335e5a8e9e31ff13799212bcbf6cfc677f96f19daa8613fdaece4bd",
+      "sha256": "a0eed2f755c6d62ae31d9d1b2e92519bdc6adbfb7358da8838152fde3ebcb02f"
+    },
+    {
+      "archive_path": "editor-history/-24036691/FFQZ.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_llava_weights_to_hf_local.py",
+      "timestamp_unix_ms": 1753435805436,
+      "source_sha256": "5a063f1f18bc9ba774614d573e64e0d97438953a93f211206ac85b4d1f5d2d36",
+      "sha256": "4144d3473d94844ab163e5d43d97b55db9fe19af97de99d13dcaf25835486e92"
+    },
+    {
+      "archive_path": "editor-history/-24036691/TLjQ.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_llava_weights_to_hf_local.py",
+      "timestamp_unix_ms": 1753435838620,
+      "source_sha256": "9932325e880c26defe7fd70135a06921da500067013a6cb99d02183bcba2d5a9",
+      "sha256": "6d26576d31910dc8496dbbd4241d613acd7a988fbff6107ae1a8efdf77b2c89f"
+    },
+    {
+      "archive_path": "editor-history/-24036691/kkS3.py",
+      "original_project_path": "transformers-4.40.0/src/transformers/models/llava/convert_llava_weights_to_hf_local.py",
+      "timestamp_unix_ms": 1753437059772,
+      "source_sha256": "93b69afcb927b691c7ddc132ac680d64f896ebad879153eac9d2dba2bc6a34a6",
+      "sha256": "0a11283a89a92f2d861f90c69a90c32f6ea3c4abe0a20c3707b41c7acc09521f"
+    },
+    {
+      "archive_path": "editor-history/-1845e6cb/MCHs.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1753437212916,
+      "source_sha256": "facc3faa9992215126ac6e79360f7877fcf5d38d12de445fa69590d0793f6cc9",
+      "sha256": "facc3faa9992215126ac6e79360f7877fcf5d38d12de445fa69590d0793f6cc9"
+    },
+    {
+      "archive_path": "editor-history/-1845e6cb/XKKN.py",
+      "original_project_path": "LLaVA/inference_llava.py",
+      "timestamp_unix_ms": 1753437226877,
+      "source_sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b",
+      "sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b"
+    }
+  ],
+  "redaction": {
+    "rule": "Replace third-party personal example path prefix /cpfs/user/<name> with /cpfs/user/UPSTREAM_USER",
+    "files": [
+      "standalone-transformers/convert_auto.py",
+      "standalone-transformers/convert_llava_weights_to_hf_local.py",
+      "editor-history/-2711cda/wHcC.py",
+      "editor-history/2a87dbb9/YzsX.py",
+      "editor-history/2a87dbb9/J88h.py",
+      "editor-history/2a87dbb9/8Yr7.py",
+      "editor-history/2a87dbb9/tsfa.py",
+      "editor-history/-24036691/FFQZ.py",
+      "editor-history/-24036691/TLjQ.py",
+      "editor-history/-24036691/kkS3.py"
+    ]
+  },
+  "interactive_history": {
+    "path": "ipython-history.json",
+    "source_sha256": "8495aad061a78ac9e8b4ab75844fb72d916fac90b0d4cff55b884432cfaebcd6",
+    "sha256": "8495aad061a78ac9e8b4ab75844fb72d916fac90b0d4cff55b884432cfaebcd6",
+    "entries": 27
+  },
+  "syntax_incomplete_drafts": [
+    {
+      "path": "editor-history/-29f932b5/E8Tr.py",
+      "line": 51
+    }
+  ]
+}

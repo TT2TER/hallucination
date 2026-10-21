@@ -1,0 +1,137 @@
+[
+  {
+    "session": 1,
+    "line": 1,
+    "source": "import torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')"
+  },
+  {
+    "session": 1,
+    "line": 2,
+    "source": "import torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')"
+  },
+  {
+    "session": 1,
+    "line": 3,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 2,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'"
+  },
+  {
+    "session": 2,
+    "line": 2,
+    "source": "\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 2,
+    "line": 3,
+    "source": "\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 3,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'"
+  },
+  {
+    "session": 3,
+    "line": 2,
+    "source": "\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 4,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 5,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 5,
+    "line": 2,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 5,
+    "line": 3,
+    "source": "import transformers\nprint(transformers.__version__)"
+  },
+  {
+    "session": 5,
+    "line": 4,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 5,
+    "line": 5,
+    "source": "from transformers import LlavaForConditionalGeneration, LlavaProcessor\nimport torch\n\nmodel = LlavaForConditionalGeneration.from_pretrained(\n    \"llava-hf/llava-1.5-7b-hf\",\n    torch_dtype=torch.bfloat16,\n    low_cpu_mem_usage=True,\n    attn_implementation=\"eager\"\n).to(\"cuda\")\n\nprocessor = LlavaProcessor.from_pretrained(\"llava-hf/llava-1.5-7b-hf\")"
+  },
+  {
+    "session": 5,
+    "line": 6,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 6,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 7,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 8,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:201711'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 8,
+    "line": 2,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:201711'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 8,
+    "line": 3,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 8,
+    "line": 4,
+    "source": "import transformers\nprint(transformers.__version__)"
+  },
+  {
+    "session": 8,
+    "line": 5,
+    "source": "from PIL import Image, ImageDraw\nfrom run import vicrop_qa\n\nmodel_name = 'llava'\nmethod_name = 'rel_att'\nimage_path = 'images/demo1.png'\nquestion = 'what is the date of the photo?'\nshort_question = 'what is the date of the photo?'\n\n# Run the Vicrop method\nori_answer, crop_answer, bbox = vicrop_qa(model_name, method_name, image_path, question, model, processor, short_question)\n\nprint(f'Model\\'s original answer:  {ori_answer}')\nprint(f'Answer with Vicrop:       {crop_answer}')\n\n# Visualize the bounding box\nimage = Image.open(image_path).convert(\"RGB\")\nimage_draw = ImageDraw.Draw(image)\nimage_draw.rectangle(bbox, outline='red', width=4)\ndisplay(image.resize((500, 500*image.size[1]//image.size[0])))"
+  },
+  {
+    "session": 8,
+    "line": 6,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 8,
+    "line": 7,
+    "source": "import transformers\nprint(transformers.__version__)"
+  },
+  {
+    "session": 9,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 11,
+    "line": 1,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  },
+  {
+    "session": 11,
+    "line": 2,
+    "source": "import os\n\nos.environ['http_proxy'] = 'http://127.0.0.1:20171'\nos.environ['https_proxy'] = 'http://127.0.0.1:20171'\n\nimport torch\nfrom transformers import AutoProcessor, LlavaForConditionalGeneration\n\nmodel = LlavaForConditionalGeneration.from_pretrained('llava-hf/llava-1.5-7b-hf', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\nprocessor = AutoProcessor.from_pretrained('llava-hf/llava-1.5-7b-hf')\n# model = LlavaForConditionalGeneration.from_pretrained('/root/autodl-tmp/llava-v1.5-7b', torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation=\"eager\").to('cuda')\n# processor = AutoProcessor.from_pretrained('/root/autodl-tmp/llava-v1.5-7b')"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "checked_on": "2026-10-21",
+  "scope": {
+    "conversion_scripts": 2,
+    "editor_source_snapshots": 27,
+    "interactive_inputs": 27
+  },
+  "sensitive_pattern_findings": 0,
+  "checks": [
+    "provider API tokens and cloud access keys",
+    "private key headers",
+    "credential assignments and authenticated URLs",
+    "JWT-shaped strings",
+    "non-loopback IP addresses",
+    "long source string literals manually classified as parameter names or filesystem paths",
+    "source manifest hashes and declared path anonymization"
+  ],
+  "private_example_paths": "Third-party personal directory prefix replaced with /cpfs/user/UPSTREAM_USER.",
+  "retained_network_references": [
+    "loopback proxy configuration",
+    "public Apache license URL"
+  ],
+  "long_string_literals_classified": 32,
+  "limitations": "Pattern scanning and source review reduce disclosure risk; this report describes the checks performed.",
+  "user_authorization": "User explicitly authorized public publication of the two scripts, 27 editor snapshots and 27 interactive inputs, with privacy redaction.",
+  "independent_review": {
+    "mode": "read-only",
+    "reasoning_effort": "high",
+    "files_reviewed": 32,
+    "must_redact_findings": 0
+  }
+}

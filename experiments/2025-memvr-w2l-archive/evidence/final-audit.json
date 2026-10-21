@@ -1,0 +1,45 @@
+{
+  "date_beijing": "2026-10-21",
+  "parent_archive_commit": "282973352636965d5f93b3769dc9302ea8bfe594",
+  "scope": [
+    "three project trees",
+    "standalone Transformers tree compared with its original ZIP",
+    "user home research file candidates",
+    "VS Code source history and backup locations",
+    "IPython input/output history counts",
+    "other user data locations /home /mnt /media /srv /workspace /data /tmp"
+  ],
+  "current_project_files_checked": 7499,
+  "project_changes_since_initial_archive": 0,
+  "additional_local_branches": 0,
+  "git_stashes": 0,
+  "supplementary_files_saved": {
+    "standalone_conversion_sources": 2,
+    "editor_source_snapshots": 27,
+    "ipython_inputs": 27,
+    "ipython_outputs_present": 0
+  },
+  "supplementary_limits": [
+    "One editor snapshot is syntactically incomplete.",
+    "Interactive inputs carry no execution outcomes.",
+    "Third-party personal example directory prefix is anonymized; raw and public hashes separately recorded."
+  ],
+  "data_work_files_checked": 2494,
+  "data_source_groups": {
+    "LLaVA_Git_baseline": 22,
+    "LLaVA_eval_zip": 52,
+    "MME_data_zip": 2374,
+    "MME_tool_zip": 31,
+    "archived_MemVR_outputs": 15
+  },
+  "remaining_unarchived_unique_research_file_candidates": 0,
+  "intentionally_recreated_or_discarded": [
+    "three public ZIPs (user decision)",
+    "base model/download caches",
+    "full installed Conda environments; package versions recorded",
+    "upstream Git object databases; baselines and worktree changes recorded",
+    "temporary authentication and app runtime state",
+    "macOS resource forks and bytecode caches"
+  ],
+  "shutdown_or_disk_clear_executed": false
+}
