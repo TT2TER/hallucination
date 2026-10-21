@@ -1,0 +1,33 @@
+{
+  "date_beijing": "2026-10-21",
+  "public_zip_policy": "Download links, pinned revisions and historical file fingerprints retained; no copy of the three ZIP bodies.",
+  "server_readonly_validation": {
+    "public_inputs_matched_to_existing_zips_or_git": 2479,
+    "existing_work_files_verified": 2494,
+    "archive_result_files_separately_saved": 15
+  },
+  "online_source_checks": {
+    "eval_zip": "Official Drive HEAD returned HTTP 200, application/octet-stream, eval.zip attachment; body not downloaded.",
+    "mme_zip": "Public fixed revision metadata checked; ZIP bytes differ from server historical ZIP; internal content comparison deferred to restore.",
+    "eval_tool_zip": "Public Git blob and size equal historical server ZIP."
+  },
+  "fixture_tests": {
+    "fixture_checks_passed": 12,
+    "checks": [
+      "check_inputs_handles_changed_zip_member_paths",
+      "check_inputs_is_read_only",
+      "restore_writes_expected_five_files",
+      "restored_content_matches",
+      "verify_existing",
+      "accepts_repacked_zip_with_identical_content",
+      "refuses_overwriting_different_existing_file",
+      "refusal_writes_nothing",
+      "rejects_parent_path_traversal",
+      "rejects_symlink_escape",
+      "rejects_changed_data_content",
+      "changed_input_refusal_writes_nothing"
+    ],
+    "scope": "Local synthetic files; separate server read-only check used original ZIPs and all 2494 work files."
+  },
+  "runtime_scope": "Read-only server validation and synthetic local recovery. No ZIP backup, model inference or training."
+}

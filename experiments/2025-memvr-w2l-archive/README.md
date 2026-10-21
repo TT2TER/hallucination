@@ -104,6 +104,8 @@ github-main-overlay/          归档前 main 相对 LLaVA 基线的 38 个 Pytho
 patches/                      分别对照 LLaVA、MemVR、Where to Look 和各分支的差异
 results/MME/                  15 个既存结果文件
 evidence/                     来源、版本、单元比较、结果行数及环境包记录
+DATA_RESTORE.md                三个公开 ZIP 的下载地址、校验值与恢复方法
+tools/restore_data.py          按内容指纹恢复和核验评测资料
 licenses/                     上游许可文本及 Where to Look 的原始说明
 CHECKSUMS.sha256               本目录文件的 SHA-256 校验表
 ```
@@ -129,7 +131,7 @@ CHECKSUMS.sha256               本目录文件的 SHA-256 校验表
 
 环境表来自安装元数据，Notebook 的 kernel 和版本输出属于其保存时的历史状态。归档过程只读取服务器文件，在本地检查传输哈希、上游基线、补丁恢复和结果结构；本轮使用原有实验代码，运行验证范围详见 [`evidence/verification.json`](evidence/verification.json)。
 
-本目录保存代码差异、Notebook 和上述结果。模型权重、完整 Conda 目录、评测图片和其他大体积数据的保存范围仍应按清空前盘点清单另行核对。恢复实验时需要准备对应基础模型和原始评测数据。
+本目录保存代码差异、Notebook 和上述结果。三个公开数据 ZIP 按归档决策保留下载地址与逐文件恢复映射，详见 [数据恢复说明](DATA_RESTORE.md)。恢复工具已通过服务器只读输入核对和本地恢复测试，范围与结果见 [`evidence/recovery-verification.json`](evidence/recovery-verification.json)。模型权重和完整 Conda 目录属于恢复时重新准备的环境材料。
 
 ## 7. 来源与署名
 
