@@ -1,0 +1,4 @@
+# Keep the archival evidence and notebook despite repository-wide exclusions.
+!*.json
+!*.jsonl
+!*.ipynb

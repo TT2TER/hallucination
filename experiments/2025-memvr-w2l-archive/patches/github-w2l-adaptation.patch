@@ -1,0 +1,862 @@
+--- mllms_know/run.py
++++ hallucination/run.py
+@@ -2,19 +2,26 @@
+ from PIL import Image
+ import torch
+ import numpy as np
+-from transformers import AutoProcessor, LlavaForConditionalGeneration, InstructBlipProcessor, InstructBlipForConditionalGeneration, Qwen2_5_VLForConditionalGeneration
++from transformers import AutoProcessor, LlavaForConditionalGeneration #, InstructBlipProcessor, InstructBlipForConditionalGeneration, Qwen2_5_VLForConditionalGeneration
++from llava.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN, IGNORE_INDEX
++
+ import argparse
+ from tqdm import tqdm
+ import json
+ from datasets import load_dataset
+ 
+ from llava_methods import *
+-from blip_methods import *
+-from qwen2_5_methods import *
++# from blip_methods import *
++# from qwen2_5_methods import *
+ from utils import *
+-from info import *
+-
+-def vicrop_qa(model_name, method_name, image_path, question, model, processor, short_question):
++# from info import *
++
++#w2l
++from llava.mm_utils import process_images, tokenizer_image_token
++from llava.conversation import conv_templates
++
++
++def vicrop_qa_hf(model_name, method_name, image_path, question, model, processor, short_question):
+     """
+     Performs visual cropping and question answering using different attention methods.
+     
+@@ -65,30 +72,30 @@
+         torch.cuda.empty_cache()
+ 
+         if method_name == 'grad_att':
+-            att_map = gradient_attention_llava(image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++            att_map = gradient_attention_llava_hf(image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(att_map, image.size, bbox_size)
+         
+         elif method_name == 'grad_att_high':
+-            att_maps = high_res(gradient_attention_llava, image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(att_maps, image.size, bbox_size)
++            att_maps = high_res(gradient_attention_llava_hf, image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(att_maps, image.size, bbox_size)
+ 
+         #------------------------------------------------------------------------------------------------------------------------------------
+         elif method_name == 'rel_att':
+-            att_map = rel_attention_llava(image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++            att_map = rel_attention_llava_hf(image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(att_map, image.size, bbox_size)
+ 
+         elif method_name == 'rel_att_high':
+-            att_maps = high_res(rel_attention_llava, image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(att_maps, image.size, bbox_size)
+-        
++            att_maps = high_res(rel_attention_llava_hf, image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(att_maps, image.size, bbox_size)
++
+         #------------------------------------------------------------------------------------------------------------------------------------
+         elif method_name == 'pure_grad':
+-            grad = pure_gradient_llava(image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(grad, image.size, bbox_size)
++            grad = pure_gradient_llava_hf(image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(grad, image.size, bbox_size)
+ 
+         elif method_name == 'pure_grad_high':
+-            grads = high_res(pure_gradient_llava, image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(grads, image.size, bbox_size)
++            grads = high_res(pure_gradient_llava_hf, image, short_prompt, general_prompt, model, processor)
++            bbox = bbox_from_att_image_adaptive_hf(grads, image.size, bbox_size)
+ 
+         crop_image = image.crop(bbox)
+ 
+@@ -99,80 +106,197 @@
+         multi_generation = [i.split('ASSISTANT: ')[1] for i in processor.batch_decode(multi_generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)][0]
+ 
+         return ori_generation, multi_generation, bbox
+-    
++
++def vicrop_qa(model_name, method_name, image_path, question, model, tokenizer, image_processor, short_question, look_rate):
++    """
++    Performs visual cropping and question answering using different attention methods.
++    
++    This function processes an image with a specified model (LLaVA or BLIP) and attention method,
++    generates an attention map, crops the image based on the attention, and then performs
++    question answering on both the original and cropped images.
++    
++    Args:
++        model_name: String indicating which model to use ("llava" or "blip")
++        method_name: String indicating which attention method to use (e.g., "grad_att", "rel_att", "pure_grad")
++        image_path: Path to the input image file
++        question: The full question to ask about the image
++        model: The loaded model instance (LLaVA or BLIP)
++        processor: The processor for the corresponding model
++        short_question: A shortened version of the question for attention computation (only used in Vstar)
++        
++    Returns:
++        tuple: (original_answer, cropped_answer, bounding_box)
++            - original_answer: Model's answer using the full image
++            - cropped_answer: Model's answer using the full image and the cropped image
++            - bounding_box: The coordinates of the crop (left, top, right, bottom)
++    """
++
++    if model_name == "llava":
++        bbox_size = 336
+     elif model_name == "blip":
+-
+-        short_prompt = f"Question: {short_question} Short answer:"
+-        prompt = f"Question: {question} Short answer:"
+-        general_prompt = f"Question: {general_question} Short answer:"
+-
+-        inputs = processor(images=image, text=prompt, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
+-        ori_generate_ids = model.generate(**inputs, max_new_tokens=20, do_sample=False)
+-        ori_generation = processor.batch_decode(ori_generate_ids, skip_special_tokens=True)[0]
+-
+-        del inputs
++        bbox_size = 224
++    elif model_name == "qwen2_5":
++        bbox_size = 224
++
++    image = Image.open(image_path).convert("RGB")
++
++    model.eval()
++    general_question = 'Write a general description of the image.'
++
++    if model_name == "llava":
++        
++        short_prompt = f"<image>\nUSER: {short_question} Answer the question using a single word or phrase.\nASSISTANT:"
++        prompt = f"<image>\nUSER: {question} Answer the question using a single word or phrase.\nASSISTANT:"
++        general_prompt = f"<image>\nUSER: {general_question} Answer the question using a single word or phrase.\nASSISTANT:"
++
++
++        # print(model.device)
++        image_tensor = process_images([image], image_processor, model.config)
++        image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in image_tensor]
++        input_ids = tokenizer_image_token(prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++        # print("token",IMAGE_TOKEN_INDEX)
++        # print(input_ids.shape[1])
++        image_sizes = [image.size]
++        
++        # print(input_ids)
++        # print(type(input_ids))
++        # ori_generate_ids = model.generate(
++        #         input_ids,
++        #         images=image_tensor,
++        #         do_sample=False,
++        #         max_new_tokens=20,
++        #     )
++        # ori_generation = tokenizer.batch_decode(ori_generate_ids, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
++
++        # print(ori_generation)
++
++        # breakpoint()
++        del image_tensor
++        del input_ids
++        # del ori_generate_ids
+         torch.cuda.empty_cache()
+ 
++
+         if method_name == 'grad_att':
+-            att_map = gradient_attention_blip(image, short_prompt, general_prompt, model, processor)
++            att_map = gradient_attention_llava(image, short_prompt, general_prompt, model, tokenizer, image_processor)
+             bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
+-        
++            att_1d = att_map.reshape(-1)
++            mask = att_from_att_image_adaptive(att_1d,look_rate)
++
+         elif method_name == 'grad_att_high':
+-            att_maps = high_res(gradient_attention_blip, image, short_prompt, general_prompt, model, processor)
++            att_maps = high_res(gradient_attention_llava, image, short_prompt, general_prompt, model, tokenizer, image_processor)
+             bbox = bbox_from_att_image_adaptive(att_maps, image.size, bbox_size)
+ 
+         #------------------------------------------------------------------------------------------------------------------------------------
+         elif method_name == 'rel_att':
+-            att_map = rel_attention_blip(image, short_prompt, general_prompt, model, processor)
++            att_map = rel_attention_llava(image, short_prompt, general_prompt, model, tokenizer, image_processor)
+             bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
+-        
++            att_1d = att_map.reshape(-1)
++            mask = att_from_att_image_adaptive(att_1d)
++
+         elif method_name == 'rel_att_high':
+-            att_map = high_res(rel_attention_blip, image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
+-
++            att_maps = high_res(rel_attention_llava, image, short_prompt, general_prompt, model, tokenizer, image_processor)
++            bbox = bbox_from_att_image_adaptive(att_maps, image.size, bbox_size)
++        
+         #------------------------------------------------------------------------------------------------------------------------------------
+         elif method_name == 'pure_grad':
+-            grad = pure_gradient_blip(image, short_prompt, general_prompt, model, processor)
++            grad = pure_gradient_llava(image, short_prompt, general_prompt, model, tokenizer, image_processor)
+             bbox = bbox_from_att_image_adaptive(grad, image.size, bbox_size)
+-        
++
+         elif method_name == 'pure_grad_high':
+-            grad = high_res(pure_gradient_blip, image, short_prompt, general_prompt, model, processor)
+-            bbox = bbox_from_att_image_adaptive(grad, image.size, bbox_size)
+-
+-        crop_image = image.crop(bbox)
+-
+-        multi_inputs = processor(images=[image, crop_image], text=prompt, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
+-
+-        multi_generate_ids = model.generate(**multi_inputs, max_new_tokens=20, do_sample=False)
+-        multi_generation = processor.batch_decode(multi_generate_ids, skip_special_tokens=True)[0]
+-
+-        return ori_generation, multi_generation, bbox
+-
+-    elif model_name == "qwen2_5":
+-
+-        prompt = f'{question} Answer the question using a single word or phrase.'
+-        general_prompt = f'{general_question} Answer the question using a single word or phrase.'
+-        att_map = rel_attention_qwen2_5(image, prompt, general_prompt, model, processor)
+-        bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
+-        crop_image = image.crop(bbox)
+-        
+-        image_str = encode_base64(image)
+-        crop_image_str = encode_base64(crop_image)
+-
+-        ori_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "text", "text": prompt}]}]
+-        ori_inputs = prepare_qwen2_5_input(ori_messages, processor).to(model.device, torch.bfloat16)
+-        ori_generate_ids = model.generate(**ori_inputs, max_new_tokens=20, do_sample=False)
+-        ori_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(ori_inputs.input_ids, ori_generate_ids)]
+-        ori_generation = processor.batch_decode(ori_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+-
+-        multi_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "image", "image": f'data:image;base64,{crop_image_str}', }, {"type": "text", "text": prompt}]}]
+-        multi_inputs = prepare_qwen2_5_input(multi_messages, processor).to(model.device, torch.bfloat16)
+-        multi_generate_ids = model.generate(**multi_inputs, max_new_tokens=20, do_sample=False)
+-        num_img_tokens = sum(multi_inputs.input_ids[0] == 151655)
+-        multi_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(multi_inputs.input_ids, multi_generate_ids)]
+-        multi_generation = processor.batch_decode(multi_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+-
+-        return ori_generation, multi_generation, bbox, num_img_tokens
++            grads = high_res(pure_gradient_llava, image, short_prompt, general_prompt, model, tokenizer, image_processor)
++            bbox = bbox_from_att_image_adaptive(grads, image.size, bbox_size)
++
++        # crop_image = image.crop(bbox)
++
++        # multi_image_tensor = process_images([image, crop_image], image_processor, model.config)
++        # multi_image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in multi_image_tensor]
++        # multi_prompt = f"<image><image>\nUSER: {question} Answer the question using a single word or phrase.\nASSISTANT:"
++        # multi_input_ids = tokenizer_image_token(multi_prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++
++        # multi_generation = model.generate(
++        #         multi_input_ids,
++        #         images=multi_image_tensor,
++        #         do_sample=False,
++        #         max_new_tokens=20,
++        #     )
++        # multi_generation = tokenizer.batch_decode(multi_generation, skip_special_tokens=True)[0].split('ASSISTANT: ')[-1].strip()
++        ori_generation, multi_generation = "", ""
++        return ori_generation, multi_generation, bbox, mask
++    
++    # elif model_name == "blip":
++
++    #     short_prompt = f"Question: {short_question} Short answer:"
++    #     prompt = f"Question: {question} Short answer:"
++    #     general_prompt = f"Question: {general_question} Short answer:"
++
++    #     inputs = processor(images=image, text=prompt, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
++    #     ori_generate_ids = model.generate(**inputs, max_new_tokens=20, do_sample=False)
++    #     ori_generation = processor.batch_decode(ori_generate_ids, skip_special_tokens=True)[0]
++
++    #     del inputs
++    #     torch.cuda.empty_cache()
++
++    #     if method_name == 'grad_att':
++    #         att_map = gradient_attention_blip(image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++        
++    #     elif method_name == 'grad_att_high':
++    #         att_maps = high_res(gradient_attention_blip, image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(att_maps, image.size, bbox_size)
++
++    #     #------------------------------------------------------------------------------------------------------------------------------------
++    #     elif method_name == 'rel_att':
++    #         att_map = rel_attention_blip(image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++        
++    #     elif method_name == 'rel_att_high':
++    #         att_map = high_res(rel_attention_blip, image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++
++    #     #------------------------------------------------------------------------------------------------------------------------------------
++    #     elif method_name == 'pure_grad':
++    #         grad = pure_gradient_blip(image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(grad, image.size, bbox_size)
++        
++    #     elif method_name == 'pure_grad_high':
++    #         grad = high_res(pure_gradient_blip, image, short_prompt, general_prompt, model, processor)
++    #         bbox = bbox_from_att_image_adaptive(grad, image.size, bbox_size)
++
++    #     crop_image = image.crop(bbox)
++
++    #     multi_inputs = processor(images=[image, crop_image], text=prompt, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
++
++    #     multi_generate_ids = model.generate(**multi_inputs, max_new_tokens=20, do_sample=False)
++    #     multi_generation = processor.batch_decode(multi_generate_ids, skip_special_tokens=True)[0]
++
++    #     return ori_generation, multi_generation, bbox
++
++    # elif model_name == "qwen2_5":
++
++    #     prompt = f'{question} Answer the question using a single word or phrase.'
++    #     general_prompt = f'{general_question} Answer the question using a single word or phrase.'
++    #     att_map = rel_attention_qwen2_5(image, prompt, general_prompt, model, processor)
++    #     bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
++    #     crop_image = image.crop(bbox)
++        
++    #     image_str = encode_base64(image)
++    #     crop_image_str = encode_base64(crop_image)
++
++    #     ori_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "text", "text": prompt}]}]
++    #     ori_inputs = prepare_qwen2_5_input(ori_messages, processor).to(model.device, torch.bfloat16)
++    #     ori_generate_ids = model.generate(**ori_inputs, max_new_tokens=20, do_sample=False)
++    #     ori_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(ori_inputs.input_ids, ori_generate_ids)]
++    #     ori_generation = processor.batch_decode(ori_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
++
++    #     multi_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "image", "image": f'data:image;base64,{crop_image_str}', }, {"type": "text", "text": prompt}]}]
++    #     multi_inputs = prepare_qwen2_5_input(multi_messages, processor).to(model.device, torch.bfloat16)
++    #     multi_generate_ids = model.generate(**multi_inputs, max_new_tokens=20, do_sample=False)
++    #     num_img_tokens = sum(multi_inputs.input_ids[0] == 151655)
++    #     multi_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(multi_inputs.input_ids, multi_generate_ids)]
++    #     multi_generation = processor.batch_decode(multi_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
++
++    #     return ori_generation, multi_generation, bbox, num_img_tokens
+         
+ 
+ def main(args):
+@@ -203,14 +327,14 @@
+     if args.model == 'llava':
+         model = LlavaForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True, attn_implementation="eager").to(args.device)
+         processor = AutoProcessor.from_pretrained(args.model_id)
+-    elif args.model == 'blip':
+-        model = InstructBlipForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
+-        processor = InstructBlipProcessor.from_pretrained(args.model_id)
+-    elif args.model == 'qwen2_5':
+-        max_pixels = 256 * 28 * 28
+-        model = Qwen2_5_VLForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
+-        processor = AutoProcessor.from_pretrained(args.model_id, max_pixels=max_pixels)
+-        processor.image_processor.size["longest_edge"] = max_pixels # this is likely a bug in current transformers (4.50.0) library, passing in max_pixels to from_pretrained does not work
++    # elif args.model == 'blip':
++    #     model = InstructBlipForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
++    #     processor = InstructBlipProcessor.from_pretrained(args.model_id)
++    # elif args.model == 'qwen2_5':
++    #     max_pixels = 256 * 28 * 28
++    #     model = Qwen2_5_VLForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
++    #     processor = AutoProcessor.from_pretrained(args.model_id, max_pixels=max_pixels)
++    #     processor.image_processor.size["longest_edge"] = max_pixels # this is likely a bug in current transformers (4.50.0) library, passing in max_pixels to from_pretrained does not work
+     
+     if os.path.exists(args.question_path):
+         with open(args.question_path, "r") as f:
+--- mllms_know/llava_methods.py
++++ hallucination/llava_methods.py
+@@ -4,16 +4,18 @@
+ import torch.nn.functional as F
+ from skimage.measure import block_reduce
+ from utils import *
+-
++from llava.mm_utils import process_images, tokenizer_image_token
++from llava.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN, IGNORE_INDEX
++import gc
+ # hyperparameters
+ NUM_IMG_TOKENS = 576
+ NUM_PATCHES = 24
+ PATCH_SIZE = 14
+ IMAGE_RESOLUTION = 336
+-IMAGE_TOKEN_INDEX = 32000
++IMAGE_TOKEN_INDEX_w2l = 32000
+ ATT_LAYER = 14
+ 
+-def gradient_attention_llava(image, prompt, general_prompt, model, processor):
++def gradient_attention_llava_hf(image, prompt, general_prompt, model, processor):
+     """
+     Generates an attention map using gradient-weighted attention from LLaVA model.
+     
+@@ -34,7 +36,9 @@
+     """
+     # Prepare inputs
+     inputs = processor(prompt, image, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
+-    pos = inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX)
++    print(inputs['input_ids'])
++    pos = inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX_w2l)
++    print("w2l", IMAGE_TOKEN_INDEX_w2l)
+     
+     # Compute loss
+     outputs = model(**inputs, output_attentions=True)
+@@ -53,7 +57,68 @@
+     
+     return att_map
+ 
+-def rel_attention_llava(image, prompt, general_prompt, model, processor):
++
++def gradient_attention_llava(image, prompt, general_prompt, model, tokenizer, image_processor):
++    """
++    Generates an attention map using gradient-weighted attention from LLaVA model.
++    
++    This function computes attention maps from the LLaVA model and weights them by their
++    gradients with respect to the loss. It focuses on the attention paid to image tokens
++    in the final token prediction, highlighting regions relevant to the prompt.
++    
++    Args:
++        image: Input image to analyze
++        prompt: Text prompt for which to generate attention
++        general_prompt: General text prompt (not directly used in this function)
++        model: LLaVA model instance
++        processor: LLaVA processor for preparing inputs
++        
++    Returns:
++        att_map: A 2D numpy array of shape (NUM_PATCHES, NUM_PATCHES) representing 
++                the gradient-weighted attention map
++    """
++    # Prepare inputs
++    image_tensor = process_images([image], image_processor, model.config)
++    image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in image_tensor]
++
++    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++    # print("w2l",IMAGE_TOKEN_INDEX)
++    pos = input_ids[0].tolist().index(IMAGE_TOKEN_INDEX)# 找到图像token位置
++    # Compute loss
++    outputs = model(
++        input_ids=input_ids,
++        images=image_tensor,
++        output_attentions=True,
++        use_cache=False
++    )
++    CE = nn.CrossEntropyLoss()
++    zero_logit = outputs.logits[:, -1, :]
++    true_class = torch.argmax(zero_logit, dim=1)
++    loss = -CE(zero_logit, true_class)
++    
++    # Compute attention and gradients
++    attention = outputs.attentions[ATT_LAYER]
++    grads = torch.autograd.grad(loss, attention, retain_graph=True)
++    grad_att = attention * F.relu(grads[0])
++    
++    # Compute the attention maps
++    att_map = grad_att[0, :, -1, pos:pos+NUM_IMG_TOKENS].mean(dim=0).to(torch.float32).detach().cpu().numpy().reshape(NUM_PATCHES, NUM_PATCHES)
++    
++    del image_tensor
++    del input_ids
++    del grads
++    del outputs
++    del zero_logit
++    del true_class
++    del loss
++    del attention
++    del grad_att
++    torch.cuda.empty_cache()
++    gc.collect()
++    # breakpoint()
++    return att_map
++
++def rel_attention_llava_hf(image, prompt, general_prompt, model, processor):
+     """
+     Generates a relative attention map by comparing specific prompt attention to general prompt attention.
+     
+@@ -74,14 +139,14 @@
+     """
+     # Prepare inputs for the prompt
+     inputs = processor(prompt, image, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
+-    pos = inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX)
++    pos = inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX_w2l)
+ 
+     # Compute attention map for the 14th layer
+     att_map = model(**inputs, output_attentions=True)['attentions'][ATT_LAYER][0, :, -1, pos:pos+NUM_IMG_TOKENS].mean(dim=0).to(torch.float32).detach().cpu().numpy().reshape(NUM_PATCHES, NUM_PATCHES)
+ 
+     # Prepare inputs for the general prompt
+     general_inputs = processor(general_prompt, image, return_tensors="pt", padding=True).to(model.device, torch.bfloat16)
+-    general_pos = general_inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX)
++    general_pos = general_inputs['input_ids'][0].tolist().index(IMAGE_TOKEN_INDEX_w2l)
+ 
+     # Compute general attention map for the 14th layer
+     general_att_map = model(**general_inputs, output_attentions=True)['attentions'][ATT_LAYER][0, :, -1, general_pos:general_pos+NUM_IMG_TOKENS].mean(dim=0).to(torch.float32).detach().cpu().numpy().reshape(NUM_PATCHES, NUM_PATCHES)
+@@ -90,7 +155,85 @@
+ 
+     return att_map
+ 
+-def pure_gradient_llava(image, prompt, general_prompt, model, processor):
++def rel_attention_llava(image, prompt, general_prompt, model, tokenizer, image_processor):
++    """
++    Generates a relative attention map by comparing specific prompt attention to general prompt attention.
++    
++    This function computes attention maps for both a specific prompt and a general prompt in the LLaVA model,
++    then calculates their ratio to highlight regions that are uniquely relevant to the specific prompt.
++    It focuses on the attention paid to image tokens in the final token prediction.
++    
++    Args:
++        image: Input image to analyze
++        prompt: Specific text prompt for which to generate attention
++        general_prompt: General text prompt for baseline comparison
++        model: LLaVA model instance
++        processor: LLaVA processor for preparing inputs
++        
++    Returns:
++        att_map: A 2D numpy array of shape (NUM_PATCHES, NUM_PATCHES) representing 
++                the relative attention map (specific/general)
++    """
++    # Prepare inputs for the prompt
++    image_tensor = process_images([image], image_processor, model.config)
++    image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in image_tensor]
++
++    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++    pos = input_ids[0].tolist().index(IMAGE_TOKEN_INDEX)  # Find the position of the image token
++    print(pos)
++
++    # model.config.attn_implementation = "eager" 
++    # Compute attention map for the 14th layer
++    outputs = model(
++        input_ids=input_ids,
++        images=image_tensor,
++        output_attentions=True,
++        use_cache=False
++    )
++    attn = outputs.attentions[ATT_LAYER][0,:,-1, pos:pos+NUM_IMG_TOKENS].mean(dim=0)
++    att_map = attn.to(torch.float32).detach().cpu().numpy().reshape(NUM_PATCHES, NUM_PATCHES)
++    print(type(outputs.attentions))            # 应该是 tuple
++    print(len(outputs.attentions))             # 应该 = 层数，例如 32
++    print(outputs.attentions[-1].shape) 
++
++    del input_ids
++    # del image_tensor
++    del attn
++    del outputs
++    torch.cuda.empty_cache()
++    gc.collect()
++
++    # Prepare inputs for the general prompt
++    # image_tensor = process_images([image], image_processor, model.config)
++    # image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in image_tensor]
++    general_inputs = tokenizer_image_token(general_prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++    general_pos = general_inputs[0].tolist().index(IMAGE_TOKEN_INDEX)
++    print(general_pos)
++    # Compute general attention map for the 14th layer
++    general_outputs = model(
++        input_ids=general_inputs,
++        images=image_tensor,
++        output_attentions=True,
++        use_cache=False
++    )
++    general_attn = general_outputs.attentions[ATT_LAYER][0,:,-1, general_pos:general_pos+NUM_IMG_TOKENS].mean(dim=0)
++    general_att_map = general_attn.to(torch.float32).detach().cpu().numpy().reshape(NUM_PATCHES, NUM_PATCHES)
++
++    # Normalize attention map
++    att_map = att_map / general_att_map
++
++    del image_tensor
++    del general_inputs
++    del general_attn
++    del general_outputs
++    torch.cuda.empty_cache()
++    gc.collect()
++
++
++    # model.config.attn_implementation = "sdpa"
++    return att_map
++
++def pure_gradient_llava_hf(image, prompt, general_prompt, model, processor):
+     """
+     Generates a gradient-based attention map using direct image gradients in LLaVA.
+     
+@@ -119,6 +262,8 @@
+     # Enable gradients
+     inputs['pixel_values'].requires_grad = True
+     general_inputs['pixel_values'].requires_grad = True
++
++    print(inputs['pixel_values'])
+     
+     # Initialize loss criterion
+     criterion = nn.CrossEntropyLoss()
+@@ -131,6 +276,13 @@
+     # Compute gradients
+     grads = torch.autograd.grad(loss, inputs['pixel_values'], retain_graph=True)[0]
+     
++    del inputs
++    del zero_logit
++    del true_class
++    del loss
++    torch.cuda.empty_cache()
++    gc.collect()
++
+     # Forward pass for general_inputs
+     general_zero_logit = model(**general_inputs, output_hidden_states=False).logits[:, -1, :]
+     general_true_class = torch.argmax(general_zero_logit, dim=1)
+@@ -155,4 +307,104 @@
+     # Reduce gradient block size
+     grad = block_reduce(grad, block_size=(PATCH_SIZE, PATCH_SIZE), func=np.mean)
+     
++    return grad
++
++def pure_gradient_llava(image, prompt, general_prompt, model, tokenizer, image_processor):
++    """
++    Generates a gradient-based attention map using direct image gradients in LLaVA.
++    
++    This function computes gradients of the loss with respect to the input image pixels
++    for both specific and general prompts. It then calculates their ratio and applies
++    a high-pass filter to highlight fine-grained details that are uniquely relevant to the specific prompt.
++    
++    Args:
++        image: Input image to analyze
++        prompt: Specific text prompt for which to generate gradients
++        general_prompt: General text prompt for baseline comparison
++        model: LLaVA model instance
++        processor: LLaVA processor for preparing inputs
++        
++    Returns:
++        grad: A 2D numpy array representing the processed gradient map highlighting
++              regions relevant to the specific prompt
++    """
++    # Process inputs
++    image_tensor = process_images([image], image_processor, model.config)
++    image_tensor = [_image.to(dtype=torch.float16, device=model.device) for _image in image_tensor]
++    image_tensor[0].requires_grad = True  # Enable gradients for the image tensor
++
++    # print(image_tensor.shape)
++    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++    
++    # Apply high pass filter
++    high_pass = high_pass_filter(image, IMAGE_RESOLUTION, reduce=False)
++    
++    
++    # Initialize loss criterion
++    criterion = nn.CrossEntropyLoss()
++
++    outputs = model(
++        input_ids=input_ids,
++        images=image_tensor,
++        output_hidden_states=False,
++        use_cache=False
++    )
++    
++    # Forward pass for inputs
++    zero_logit = outputs.logits[:, -1, :]
++    true_class = torch.argmax(zero_logit, dim=1)
++    loss = -criterion(zero_logit, true_class)
++    
++    # Compute gradients
++    grads = torch.autograd.grad(loss, image_tensor, retain_graph=True)[0]
++
++    grads = grads.to(torch.float32).detach().cpu().numpy().squeeze().transpose(1, 2, 0)
++
++    grad = np.linalg.norm(grads, axis=2)
++    del input_ids
++    del outputs
++    del grads
++    torch.cuda.empty_cache()
++    gc.collect()
++
++    # Forward pass for general_inputs
++    general_inputs = tokenizer_image_token(general_prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt").unsqueeze(0).to(model.device)
++    image_tensor[0].requires_grad = True  # Enable gradients for the image tensor
++
++    general_outputs = model(
++        input_ids=general_inputs,
++        images=image_tensor,
++        output_hidden_states=False,
++        use_cache=False
++    )
++    general_zero_logit = general_outputs.logits[:, -1, :]
++    general_true_class = torch.argmax(general_zero_logit, dim=1)
++    general_loss = -criterion(general_zero_logit, general_true_class)
++    # Compute general gradients
++    general_grads = torch.autograd.grad(general_loss, image_tensor[0], retain_graph=True)[0]
++
++
++    # Process gradients
++    # grads = grads.to(torch.float32).detach().cpu().numpy().squeeze().transpose(1, 2, 0)
++    general_grads = general_grads.to(torch.float32).detach().cpu().numpy().squeeze().transpose(1, 2, 0)
++    
++    # Compute gradient norms
++    # grad = np.linalg.norm(grads, axis=2)
++    general_grad = np.linalg.norm(general_grads, axis=2)
++    
++    # Normalize and apply high pass filter
++    grad = grad / general_grad
++    high_pass = high_pass > np.median(high_pass)
++    grad = grad * high_pass
++    
++    # Reduce gradient block size
++    grad = block_reduce(grad, block_size=(PATCH_SIZE, PATCH_SIZE), func=np.mean)
++
++    del image_tensor
++    del general_inputs
++    del general_grads
++    del general_outputs
++    torch.cuda.empty_cache()
++    gc.collect()
++    
+     return grad--- mllms_know/utils.py
++++ hallucination/utils.py
+@@ -3,7 +3,7 @@
+ import os
+ from scipy.ndimage import median_filter
+ from skimage.measure import block_reduce
+-from qwen_vl_utils import process_vision_info
++# from qwen_vl_utils import process_vision_info
+ from io import BytesIO
+ import base64
+ 
+@@ -16,17 +16,17 @@
+     img_str = base64.b64encode(buffered.getvalue()).decode()
+     return img_str
+ 
+-def prepare_qwen2_5_input(messages, processor):
+-
+-    """
+-    Prepare the input for Qwen2.5VL.
+-    """
+-
+-    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+-    image_inputs, video_inputs = process_vision_info(messages)
+-    inputs = processor(text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt")
+-
+-    return inputs
++# def prepare_qwen2_5_input(messages, processor):
++
++#     """
++#     Prepare the input for Qwen2.5VL.
++#     """
++
++#     text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
++#     image_inputs, video_inputs = process_vision_info(messages)
++#     inputs = processor(text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt")
++
++#     return inputs
+ 
+ def high_pass_filter(image, resolusion, km=7, kh=3, reduce=True):
+     """
+@@ -56,6 +56,34 @@
+         h_brightness = block_reduce(h_brightness, block_size=(14, 14), func=np.sum)
+ 
+     return h_brightness
++
++
++def att_from_att_image_adaptive(att_map,look_rate):
++    """
++    生成一个 attention mask：大于等于平均值的为 1，小于平均值的为 0。
++
++    Args:
++        att_map: 一个 numpy array，表示 attention map（例如 24x24 或 16x16）
++
++    Returns:
++        mask: 一个  numpy array，形状与 att_map 相同。超过平均 attention 的位置为 1，否则为 0。
++    """
++
++    # 计算 attention 平均值
++    # avg_att = np.mean(att_map)
++
++    # # 生成 mask：大于等于平均值设为 1，小于设为 0
++    # mask = np.where(att_map >= avg_att, 1, 0)
++
++    # return mask
++    # 计算前 25% 阈值
++    rate=100-look_rate
++    threshold = np.percentile(att_map, rate)  # 75百分位数，即前25%最大值
++
++    # 生成 mask：大于等于阈值设为 1，否则设为 0
++    mask = np.where(att_map >= threshold, 1, 0)
++
++    return mask
+ 
+ def bbox_from_att_image_adaptive(att_map, image_size, bbox_size=336):
+     """
+@@ -143,6 +171,92 @@
+ 
+     return x1, y1, x2, y2
+ 
++def bbox_from_att_image_adaptive_hf(att_map, image_size, bbox_size=336):
++    """
++    Generates an adaptive bounding box for original image from an attention map.
++    
++    This function finds the region with the highest attention in the attention map
++    and creates a bounding box around it. It tries different crop ratios and selects
++    the one that produces the sharpest attention difference.
++    
++    Args:
++        att_map: A 2D numpy array representing the attention map (e.g., 24x24 for LLaVA or 16x16 for BLIP)
++        image_size: Tuple of (width, height) of the original image
++        bbox_size: Base size for the bounding box (default: 336)
++        
++    Returns:
++        tuple: (x1, y1, x2, y2) coordinates of the bounding box in the original image
++    """
++
++    # the ratios corresponds to the bounding box we are going to crop the image
++    ratios = [1, 1.2, 1.4, 1.6, 1.8, 2]
++
++    max_att_poses = []
++    differences = []
++    block_nums = []
++
++    for ratio in ratios:
++        # perform a bbox_size*r width and bbox_size*r height crop, where bbox_size is the size of the model's original image input resolution. (336 for LLaVA, 224 for BLIP)
++
++        # the size of each block in the attention map, in the original image
++        block_size = image_size[0] / att_map.shape[1], image_size[1] / att_map.shape[0]
++
++        # if I want a bbox_size*r width and bbox_size*r height crop from the original image, the number of blocks I need (x, y)
++        block_num = min(int(bbox_size*ratio/block_size[0]), att_map.shape[1]), min(int(bbox_size*ratio/block_size[1]), att_map.shape[0])
++        if att_map.shape[1]-block_num[0] < 1 and att_map.shape[0]-block_num[1] < 1:
++            if ratio == 1:
++                return 0, 0, image_size[0], image_size[1]
++            else:
++                continue
++        block_nums.append((block_num[0], block_num[1]))
++        
++        # attention aggregation map
++        sliding_att = np.zeros((att_map.shape[0]-block_num[1]+1, att_map.shape[1]-block_num[0]+1))
++        max_att = -np.inf
++        max_att_pos = (0, 0)
++
++        # sliding window to find the block with the highest attention
++        for x in range(att_map.shape[1]-block_num[0]+1): 
++            for y in range(att_map.shape[0]-block_num[1]+1): 
++                att = att_map[y:y+block_num[1], x:x+block_num[0]].sum()
++                sliding_att[y, x] = att
++                if att > max_att:
++                    max_att = att
++                    max_att_pos = (x, y)
++        
++        # we have the position of max attention, we can calculate the difference between the max attention and the average of its adjacent attentions, to see if it is sharp enough, the more difference, the sharper
++        # we choose the best ratio r according to their attention difference
++        adjcent_atts = []
++        if max_att_pos[0] > 0:
++            adjcent_atts.append(sliding_att[max_att_pos[1], max_att_pos[0]-1])
++        if max_att_pos[0] < sliding_att.shape[1]-1:
++            adjcent_atts.append(sliding_att[max_att_pos[1], max_att_pos[0]+1])
++        if max_att_pos[1] > 0:
++            adjcent_atts.append(sliding_att[max_att_pos[1]-1, max_att_pos[0]])
++        if max_att_pos[1] < sliding_att.shape[0]-1:
++            adjcent_atts.append(sliding_att[max_att_pos[1]+1, max_att_pos[0]])
++        difference = (max_att - np.mean(adjcent_atts)) / (block_num[0] * block_num[1])
++        differences.append(difference)
++        max_att_poses.append(max_att_pos)
++    max_att_pos = max_att_poses[np.argmax(differences)]
++    block_num = block_nums[np.argmax(differences)]
++    selected_bbox_size = bbox_size * ratios[np.argmax(differences)]
++    
++    x_center = int(max_att_pos[0] * block_size[0] + block_size[0] * block_num[0] / 2)
++    y_center = int(max_att_pos[1] * block_size[1] + block_size[1] * block_num[1] / 2)
++    
++    x_center = selected_bbox_size//2 if x_center < selected_bbox_size//2 else x_center
++    y_center = selected_bbox_size//2 if y_center < selected_bbox_size//2 else y_center
++    x_center = image_size[0] - selected_bbox_size//2 if x_center > image_size[0] - selected_bbox_size//2 else x_center
++    y_center = image_size[1] - selected_bbox_size//2 if y_center > image_size[1] - selected_bbox_size//2 else y_center
++
++    x1 = max(0, x_center - selected_bbox_size//2)
++    y1 = max(0, y_center - selected_bbox_size//2)
++    x2 = min(image_size[0], x_center + selected_bbox_size//2)
++    y2 = min(image_size[1], y_center + selected_bbox_size//2)
++
++    return x1, y1, x2, y2
++
+ def high_res_split_threshold(image, res_threshold=1024):
+     """
+     Splits a high-resolution image into smaller patches.

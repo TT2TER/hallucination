@@ -1,0 +1,632 @@
+{
+  "archived_on": "2026-10-21",
+  "server_export_utc": "2026-10-21T07:12:07.716898+00:00",
+  "github_repository": "TT2TER/hallucination",
+  "github_reference_commit": "a7f1fd8f66fe1fef5184bdfdbfff8e8ea9dfa1ad",
+  "github_changed_code_paths": [
+    "eval_scripts/glm/chair.sh",
+    "eval_scripts/glm/llavabench.sh",
+    "eval_scripts/glm/mme.sh",
+    "eval_scripts/glm/mmvet.sh",
+    "eval_scripts/glm/vizwiz.sh",
+    "eval_scripts/llava/chair.sh",
+    "eval_scripts/llava/cocoqa.sh",
+    "eval_scripts/llava/llavabench.sh",
+    "eval_scripts/llava/mme.sh",
+    "eval_scripts/llava/mme_our.sh",
+    "eval_scripts/llava/mmvet.sh",
+    "eval_scripts/llava/pope.sh",
+    "eval_scripts/llava/pope_our.sh",
+    "eval_scripts/llava/vizwiz.sh",
+    "eval_scripts/qwen/chair.sh",
+    "eval_scripts/qwen/llavabench.sh",
+    "eval_scripts/qwen/mme.sh",
+    "eval_scripts/qwen/mmvet.sh",
+    "eval_scripts/qwen/vizwiz.sh",
+    "inference_llava.py",
+    "llava/eval/cal_chair.py",
+    "llava/eval/glm_model_vqa.py",
+    "llava/eval/glm_model_vqa_loader.py",
+    "llava/eval/glm_model_vqa_loader_chair.py",
+    "llava/eval/llava_model_vqa.py",
+    "llava/eval/llava_model_vqa_loader.py",
+    "llava/eval/llava_model_vqa_loader_chair.py",
+    "llava/eval/llava_model_vqa_loader_our.py",
+    "llava/eval/qwen_model_vqa.py",
+    "llava/eval/qwen_model_vqa_loader.py",
+    "llava/eval/qwen_model_vqa_loader_chair.py",
+    "llava/model/language_model/llava_llama.py",
+    "llava_methods.py",
+    "memvr.py",
+    "our_inference_llava.py",
+    "run.py",
+    "test.py",
+    "utils.py"
+  ],
+  "projects": {
+    "LLaVA": {
+      "baseline_commit": "c121f0432da27facab705978f83c4ada465e46fd",
+      "branch": "main",
+      "tracked_worktree_changes": [
+        " M llava/model/language_model/llava_llama.py"
+      ]
+    },
+    "MemVR": {
+      "baseline_commit": "3cfbc6b5a97c926c287b7af5c8ef0d39a8a4f6c0",
+      "branch": "main",
+      "tracked_worktree_changes": [
+        " D eval_scripts/glm/GLM-4V",
+        " D eval_scripts/glm/chair.sh",
+        " D eval_scripts/glm/llavabench.sh",
+        " D eval_scripts/glm/mme.sh",
+        " D eval_scripts/glm/mmvet.sh",
+        " D eval_scripts/glm/vizwiz.sh",
+        " D eval_scripts/llava/LLaVA-1.5",
+        " D eval_scripts/llava/chair.sh",
+        " D eval_scripts/llava/llavabench.sh",
+        " D eval_scripts/llava/mme.sh",
+        " D eval_scripts/llava/mmvet.sh",
+        " D eval_scripts/llava/vizwiz.sh",
+        " D eval_scripts/qwen/chair.sh",
+        " D eval_scripts/qwen/llavabench.sh",
+        " D eval_scripts/qwen/mme.sh",
+        " D eval_scripts/qwen/mmvet.sh",
+        " D eval_scripts/qwen/vizwiz.sh",
+        " D inference/inference_glm.py",
+        " D inference/inference_llava.py",
+        " D inference/inference_qwen.py",
+        " D memvr.py"
+      ]
+    },
+    "mllms_know": {
+      "baseline_commit": "a64c5d5a0ece793a2f7dc96e926d283a199033c1",
+      "branch": "main",
+      "tracked_worktree_changes": [
+        " M quick_start.ipynb"
+      ]
+    }
+  },
+  "llava_overlay_files": [
+    {
+      "path": "inference_llava.py",
+      "bytes": 2472,
+      "sha256": "21cf0aff50f50b42d9b1b6dd45776c91ab4872af327224fc3b06f1565f64658b",
+      "git_blob_sha": "8f7762ebd4d839b501f0273fb35325a199d6dd4f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-25T09:53:46.877137+00:00",
+      "classification": "MemVR local adaptation",
+      "exact_source_paths": []
+    },
+    {
+      "path": "memvr.py",
+      "bytes": 23334,
+      "sha256": "b582b3892731862ffc3dd649d0a28ed730bf64760f58a848a6e5a14a5d78a71d",
+      "git_blob_sha": "57924ba54e70b5f2d045ea0047d224a01ad08767",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-22T14:18:51.861341+00:00",
+      "classification": "MemVR local adaptation",
+      "exact_source_paths": []
+    },
+    {
+      "path": "eval_scripts/glm/chair.sh",
+      "bytes": 562,
+      "sha256": "2ad386c9bbba9e8d952e75ce9b13356b104e5f20f40193c7af2d4e020828f263",
+      "git_blob_sha": "bc1538c826154ef4b1f5bf88c8fd9dd7834477df",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/glm/chair.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/glm/llavabench.sh",
+      "bytes": 583,
+      "sha256": "d1c530b83028484c4ed04dfd22fc2d2a05bca71807a2c00f74c9c5fa23fce414",
+      "git_blob_sha": "71d3b893e171b8d7cadf1a004b4bc62836e00725",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/glm/llavabench.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/glm/mme.sh",
+      "bytes": 689,
+      "sha256": "67197dda1b8e43090f93b260bb68608c1f0f85f11179475e6489e27cfe6c3fd1",
+      "git_blob_sha": "7b048dfde72ec32a2e5dc59881ccccdeaa006fac",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/glm/mme.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/glm/mmvet.sh",
+      "bytes": 778,
+      "sha256": "bd6feebfc3f408f37dffba6e5a9d54ee1019cb1d82b4db7e5a450e695f406e06",
+      "git_blob_sha": "686fdab8569c49ed923142076ba49655966e11cd",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/glm/mmvet.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/glm/vizwiz.sh",
+      "bytes": 835,
+      "sha256": "6a8e2857275bd03bd589d31e5959aa0c0e437617a9ac8933fc1b4a30782a0403",
+      "git_blob_sha": "01ab2f349ce0de005f77ad631ac92f25ae212a0c",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/glm/vizwiz.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/llava/chair.sh",
+      "bytes": 569,
+      "sha256": "3ca06455619a3796f399674193bdfdbf9e88090b13c4ec297bf9cda254747a45",
+      "git_blob_sha": "bcffa20b0a8a1c1b46de514c0a709ed52c756f18",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/llava/chair.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/llava/llavabench.sh",
+      "bytes": 590,
+      "sha256": "2c02c251b53f04be28acc0d87472aa1d32b9ef9ae877d4400d7ca45af73c0a40",
+      "git_blob_sha": "287f9516ea6104d20bd0cf623dc683c27f183cf0",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/llava/llavabench.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/llava/mme.sh",
+      "bytes": 722,
+      "sha256": "be5da418a661b3cde03ec4e8657390db305f42bed717dc0846c4482d78d0f01e",
+      "git_blob_sha": "bb452f4e6589444975c6c44309cb454bfe4ef15c",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:55:08.844059+00:00",
+      "classification": "MemVR local adaptation",
+      "exact_source_paths": []
+    },
+    {
+      "path": "eval_scripts/llava/mmvet.sh",
+      "bytes": 784,
+      "sha256": "a868f207438065fbca834e1a2b656c6be34527e0937a9a4725f339a67b2e0021",
+      "git_blob_sha": "8f2dedfbf557efed614e524984d3901797aba700",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/llava/mmvet.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/llava/vizwiz.sh",
+      "bytes": 841,
+      "sha256": "d3be0b37adb82e0749184d9676075927f74c252726a70f3fcd4bec01574c1429",
+      "git_blob_sha": "1030ff189da7fd1b7c1df815eaf5478e303cfd14",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/llava/vizwiz.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/qwen/chair.sh",
+      "bytes": 566,
+      "sha256": "567bae13a670ba7ff21838f5293dd56b2bf29562398846d26644b9a1193157bc",
+      "git_blob_sha": "afd89809dfb8d5f492c054ce153da84bd58a8fa2",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/qwen/chair.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/qwen/llavabench.sh",
+      "bytes": 587,
+      "sha256": "5f736cf673231426abf3fac44473e215d49d90df602141efcf1398f771fa2171",
+      "git_blob_sha": "4840982b25377210804cc79cb74667be4dd9a0f7",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/qwen/llavabench.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/qwen/mme.sh",
+      "bytes": 700,
+      "sha256": "82a62849b79bc0e59aa59fd2b2039c34e2e2b5a0e9398ed9912a3929bec917ac",
+      "git_blob_sha": "9396456de3e30cdcb43cbf286413f2ec0aad960d",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/qwen/mme.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/qwen/mmvet.sh",
+      "bytes": 782,
+      "sha256": "b78f6090269a5a9387103dbfc4cecdd533200c6d13772fec2061672665c1d066",
+      "git_blob_sha": "50cd9e6832e03a71b9bd572b8667e0f9fddfdca9",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/qwen/mmvet.sh"
+      ]
+    },
+    {
+      "path": "eval_scripts/qwen/vizwiz.sh",
+      "bytes": 839,
+      "sha256": "7c4dcea8eb6bf8dcc0ddf06a81c2844ac004629a9635c72342d37871047bb3af",
+      "git_blob_sha": "dee1ccab44ca043a6b2c47c9a49c2063d72863f2",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.533548+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval_scripts/qwen/vizwiz.sh"
+      ]
+    },
+    {
+      "path": "inference/inference_glm.py",
+      "bytes": 2102,
+      "sha256": "2da32f9779382c69d1a82b8de56e7f128820f2afcd5c4ce3435788c3f3139653",
+      "git_blob_sha": "2479339fd9fc820556e6031ff190fc89aa1a5708",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.577536+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "inference/inference_glm.py"
+      ]
+    },
+    {
+      "path": "inference/inference_llava.py",
+      "bytes": 2424,
+      "sha256": "2e76628290650ceb659a4547e8e24ab49ce1075bc5606bb7411012fa8e7292bc",
+      "git_blob_sha": "d9cd5dd1f60adb2ac3cd6233b3dc60b0f310ec6f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.577536+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "inference/inference_llava.py"
+      ]
+    },
+    {
+      "path": "inference/inference_qwen.py",
+      "bytes": 1514,
+      "sha256": "e0a2b3af5151b19b52f9d2a5dc402af241af391ac02fccb96779d5cd9e693e00",
+      "git_blob_sha": "700b01552f78a5722a6095cfe045b6c1390b0491",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T00:59:13.577536+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "inference/inference_qwen.py"
+      ]
+    },
+    {
+      "path": "llava/eval/cal_chair.py",
+      "bytes": 20066,
+      "sha256": "84ea67bd831f7dc8ed605f5d3428cfb3e8f5dad3f4b73e1d2907a01c66a4af86",
+      "git_blob_sha": "f0ce1e768d18842e7a932fe812b4ecb66c1dd59f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:05.742098+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/cal_chair.py"
+      ]
+    },
+    {
+      "path": "llava/eval/glm_model_vqa.py",
+      "bytes": 5159,
+      "sha256": "683404b9caed99c56d57e766d4fd0eeaf2c513a645a8618c0cfe9677328a8f9e",
+      "git_blob_sha": "0f3413f4593c7b15d5a078e85804ecd37de5e86d",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:04.698104+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa.py"
+      ]
+    },
+    {
+      "path": "llava/eval/glm_model_vqa_loader.py",
+      "bytes": 7868,
+      "sha256": "3af4304d58f7cb9d55c80defcbdbb51646c3588ba47cc7a037cc7d6ffd63715d",
+      "git_blob_sha": "695d1ef2c27968fa2517b151c9a13751da492e84",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:05.046103+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "llava/eval/glm_model_vqa_loader_chair.py",
+      "bytes": 6869,
+      "sha256": "bf82d9beecf012523c78198efc1a0277eeaca736983f1fc7f21486dcf597becb",
+      "git_blob_sha": "79ac12a9c252c5c724c5316b1206f8e3a8eb3b8f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:05.378100+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa_loader_chair.py"
+      ]
+    },
+    {
+      "path": "llava/eval/llava_model_vqa.py",
+      "bytes": 5211,
+      "sha256": "33c42ebf1802bb6c8d4d0532382bbc13831657b518a9345ed9b50a95fa99d4d1",
+      "git_blob_sha": "c25f3c9a3d67e2cb0dbcdd807b40723e96f4861f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:03.754107+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa.py"
+      ]
+    },
+    {
+      "path": "llava/eval/llava_model_vqa_loader.py",
+      "bytes": 7157,
+      "sha256": "f8ad6fd195a3d41178170b5b1e3c0a6a608391488db50d01af69c777615c6bd3",
+      "git_blob_sha": "8a0f2c382ab2f9b3e710e0abd50473266b73bf9e",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:04.086106+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "llava/eval/llava_model_vqa_loader_chair.py",
+      "bytes": 7390,
+      "sha256": "71a16702cad6a7c34166c81e5582e8161ef9df8e0760a4ff877fdd049d3650b6",
+      "git_blob_sha": "9cc1d4d2a0588abb9b1169aeec6f7fbed4f681ec",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:04.370105+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa_loader_chair.py"
+      ]
+    },
+    {
+      "path": "llava/eval/qwen_model_vqa.py",
+      "bytes": 5034,
+      "sha256": "c320b504caaa5312936faf5877d524ab7fbecb10cea0fcb0778c85a8463481ad",
+      "git_blob_sha": "1f4f0d7da1245c4e364b5b60a9e4be285ae4a32f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:02.882107+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa.py"
+      ]
+    },
+    {
+      "path": "llava/eval/qwen_model_vqa_loader.py",
+      "bytes": 7532,
+      "sha256": "d359a9fedaec0d3bde3d4aa104cb546ade31c6d54956ceec9bef7c90cb7ad2b0",
+      "git_blob_sha": "8a9a0e3ae2d23946b09d65a3df36a41695e6c631",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:03.150107+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "llava/eval/qwen_model_vqa_loader_chair.py",
+      "bytes": 6280,
+      "sha256": "47f096efb56649889b32384a352fe47afa24f7f3e2542cfadda878584335e73b",
+      "git_blob_sha": "9453114287d405fb82f981f5aefdb5d333a622a0",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-12T01:01:03.462107+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa_loader_chair.py"
+      ]
+    },
+    {
+      "path": "llava/model/language_model/llava_llama.py",
+      "bytes": 5480,
+      "sha256": "063bcb8a8a7300a6f1252b4a2f3b74066169f61320f83e4241452aea36202075",
+      "git_blob_sha": "966f2326d684df47767b8222745a8e4349df7c7a",
+      "baseline_sha": "069d0d1c10da42f5d278598e8534f166d1f9f5ff",
+      "mtime_utc": "2025-07-12T00:56:01.597006+00:00",
+      "classification": "LLaVA tracked change",
+      "exact_source_paths": []
+    },
+    {
+      "path": "playground/data/eval/MME/convert_answer_to_mme.py",
+      "bytes": 2635,
+      "sha256": "3b8ab551624e1c5a20304b353f5a5fd4db487562df8610129a73a8356f5234b5",
+      "git_blob_sha": "b34808c4045b480024c5f123ebbdc246bfc0c953",
+      "baseline_sha": null,
+      "mtime_utc": "2023-10-10T14:33:56+00:00",
+      "classification": "Evaluation tool exact copy",
+      "exact_source_paths": [
+        "eval/MME/convert_answer_to_mme.py"
+      ]
+    },
+    {
+      "path": "playground/data/eval/MME/eval_tool/calculation.py",
+      "bytes": 4987,
+      "sha256": "66f154c0d3568cdd0c95b7d3e6b5a4b10cd393c71463328352c8c417c20a0607",
+      "git_blob_sha": "689d6d48314ff8c597c218db3422d5d1164f496d",
+      "baseline_sha": null,
+      "mtime_utc": "2023-07-01T05:11:33+00:00",
+      "classification": "Evaluation tool exact copy",
+      "exact_source_paths": [
+        "eval_tool/calculation.py"
+      ]
+    },
+    {
+      "path": "playground/data/eval/mm-vet/convert_answers.py",
+      "bytes": 524,
+      "sha256": "b64da282e4559ddc82d9f3fde2f71c4c14a39dc3ff6277013c3a8a5412899e7b",
+      "git_blob_sha": "f883b7ec5fe98757addad1db134a42d31e4f5cbe",
+      "baseline_sha": null,
+      "mtime_utc": "2023-09-06T03:42:00+00:00",
+      "classification": "Evaluation tool exact copy",
+      "exact_source_paths": [
+        "eval/mm-vet/convert_answers.py"
+      ]
+    },
+    {
+      "path": "playground/data/eval/seed_bench/extract_video_frames.py",
+      "bytes": 4438,
+      "sha256": "9d83ef5f6eb3dc0f35c0264f1ec6b3335dcbfd31bec788d2a892496f07490a84",
+      "git_blob_sha": "1d69055d64fbbeae0256e56bca8f2338295ff3f5",
+      "baseline_sha": null,
+      "mtime_utc": "2023-10-11T10:28:00+00:00",
+      "classification": "Evaluation tool exact copy",
+      "exact_source_paths": [
+        "eval/seed_bench/extract_video_frames.py"
+      ]
+    },
+    {
+      "path": "eval/cal_chair.py",
+      "bytes": 20066,
+      "sha256": "84ea67bd831f7dc8ed605f5d3428cfb3e8f5dad3f4b73e1d2907a01c66a4af86",
+      "git_blob_sha": "f0ce1e768d18842e7a932fe812b4ecb66c1dd59f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.519865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/cal_chair.py"
+      ]
+    },
+    {
+      "path": "eval/glm_model_vqa.py",
+      "bytes": 5159,
+      "sha256": "683404b9caed99c56d57e766d4fd0eeaf2c513a645a8618c0cfe9677328a8f9e",
+      "git_blob_sha": "0f3413f4593c7b15d5a078e85804ecd37de5e86d",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.519865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa.py"
+      ]
+    },
+    {
+      "path": "eval/glm_model_vqa_loader.py",
+      "bytes": 7868,
+      "sha256": "3af4304d58f7cb9d55c80defcbdbb51646c3588ba47cc7a037cc7d6ffd63715d",
+      "git_blob_sha": "695d1ef2c27968fa2517b151c9a13751da492e84",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "eval/glm_model_vqa_loader_chair.py",
+      "bytes": 6869,
+      "sha256": "bf82d9beecf012523c78198efc1a0277eeaca736983f1fc7f21486dcf597becb",
+      "git_blob_sha": "79ac12a9c252c5c724c5316b1206f8e3a8eb3b8f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/glm_model_vqa_loader_chair.py"
+      ]
+    },
+    {
+      "path": "eval/llava_model_vqa.py",
+      "bytes": 5211,
+      "sha256": "33c42ebf1802bb6c8d4d0532382bbc13831657b518a9345ed9b50a95fa99d4d1",
+      "git_blob_sha": "c25f3c9a3d67e2cb0dbcdd807b40723e96f4861f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa.py"
+      ]
+    },
+    {
+      "path": "eval/llava_model_vqa_loader.py",
+      "bytes": 7157,
+      "sha256": "f8ad6fd195a3d41178170b5b1e3c0a6a608391488db50d01af69c777615c6bd3",
+      "git_blob_sha": "8a0f2c382ab2f9b3e710e0abd50473266b73bf9e",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "eval/llava_model_vqa_loader_chair.py",
+      "bytes": 7390,
+      "sha256": "71a16702cad6a7c34166c81e5582e8161ef9df8e0760a4ff877fdd049d3650b6",
+      "git_blob_sha": "9cc1d4d2a0588abb9b1169aeec6f7fbed4f681ec",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/llava_model_vqa_loader_chair.py"
+      ]
+    },
+    {
+      "path": "eval/qwen_model_vqa.py",
+      "bytes": 5034,
+      "sha256": "c320b504caaa5312936faf5877d524ab7fbecb10cea0fcb0778c85a8463481ad",
+      "git_blob_sha": "1f4f0d7da1245c4e364b5b60a9e4be285ae4a32f",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa.py"
+      ]
+    },
+    {
+      "path": "eval/qwen_model_vqa_loader.py",
+      "bytes": 7532,
+      "sha256": "d359a9fedaec0d3bde3d4aa104cb546ade31c6d54956ceec9bef7c90cb7ad2b0",
+      "git_blob_sha": "8a9a0e3ae2d23946b09d65a3df36a41695e6c631",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa_loader.py"
+      ]
+    },
+    {
+      "path": "eval/qwen_model_vqa_loader_chair.py",
+      "bytes": 6280,
+      "sha256": "47f096efb56649889b32384a352fe47afa24f7f3e2542cfadda878584335e73b",
+      "git_blob_sha": "9453114287d405fb82f981f5aefdb5d333a622a0",
+      "baseline_sha": null,
+      "mtime_utc": "2025-07-23T07:53:48.523865+00:00",
+      "classification": "MemVR exact copy",
+      "exact_source_paths": [
+        "eval/qwen_model_vqa_loader_chair.py"
+      ]
+    }
+  ],
+  "mllms_notebook": {
+    "path": "quick_start.ipynb",
+    "bytes": 2739124,
+    "sha256": "802c77a07e1c4b6d51f5d9a8eb66dd81872b9499c13545bf0410de6f417bcfa4",
+    "git_blob_sha": "8082974e4ea02dd0b67481e1b240d324806cf884",
+    "baseline_sha": "e567a6cf94a77296739e5ca9922a72017b19fc05",
+    "mtime_utc": "2025-08-04T14:13:22.131246+00:00"
+  },
+  "comparison_scope": "Exact byte content and Git baselines; file deltas do not prove human authorship or actual execution parameters."
+}

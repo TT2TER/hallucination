@@ -1,0 +1,77 @@
+[
+  {
+    "path": "results/MME/answers/llava-v1.5-7b/memvr.jsonl",
+    "lines": 2374,
+    "sha256": "2e08ad7f8271f21d375bdbc530b29bfacba052d1a194ac36b7d5b2ea9b87505a"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/OCR.txt",
+    "lines": 40,
+    "sha256": "590e05e8b8250e05674177c3f287249403bb74370988d563d422666014b3987c"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/artwork.txt",
+    "lines": 400,
+    "sha256": "f73d61f0d727a4f2687a2247e5c3a8e55c0f0aa4347ab2f055dd4f261d99162c"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/celebrity.txt",
+    "lines": 340,
+    "sha256": "44377f6061c5048f09947b5045bc7edd6e24107a272007ce760576cf95bd5f2b"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/code_reasoning.txt",
+    "lines": 40,
+    "sha256": "5b2404a0f6a19d4b5c34bac61caaf12f7110e28a5df54615b8d074c6e89983d8"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/color.txt",
+    "lines": 60,
+    "sha256": "8198cb333e8befb7a920dd6ef5c0a9f7d92af85f67bb0287f1b9c1d64931c87f"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/commonsense_reasoning.txt",
+    "lines": 140,
+    "sha256": "90620f8fc2e2d44bb6275a531304d781aef0eb13a784f408f9448f2daf0e6b61"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/count.txt",
+    "lines": 60,
+    "sha256": "f7db55a6b043447dc527ae97a62222c659e5833e9e6681dd98745634ff0e96e6"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/existence.txt",
+    "lines": 60,
+    "sha256": "8c5d933a169e029928e99580490468845161357e0dab1acd12dfcf07eb555e0d"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/landmark.txt",
+    "lines": 400,
+    "sha256": "f3575798efc0c2c6e075b9518bae9569c087e3c0701859a1e01078e3e782b660"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/numerical_calculation.txt",
+    "lines": 40,
+    "sha256": "8ccd57f5bfed59af2be0f6f992503203c12f5199672cc35b07638e764b3b7dde"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/position.txt",
+    "lines": 60,
+    "sha256": "24dbe828abc767245ab36ac1e6eeaaedab9056d24663a707bf32810f75399bb6"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/posters.txt",
+    "lines": 294,
+    "sha256": "5ec69b9a21b0444322d3239d3d09ee7bf24302a7e12a42d8a6b9d33e90d81ba9"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/scene.txt",
+    "lines": 400,
+    "sha256": "3329c673af56157294d2899275f6ad8e963d97d00a1c9768bea729f45e0607b2"
+  },
+  {
+    "path": "results/MME/eval_tool/answers/llava-v1.5-7b/memvr/text_translation.txt",
+    "lines": 40,
+    "sha256": "6e58c2d462b365190a23920afd2519cd7d110e319e9aa395a84ca5e0c5e41033"
+  }
+]

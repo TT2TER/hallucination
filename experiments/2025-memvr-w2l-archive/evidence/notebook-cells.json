@@ -1,0 +1,137 @@
+[
+  {
+    "cell_index_zero_based": 0,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 1,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 2,
+    "type": "code",
+    "source_found_in_baseline": false,
+    "outputs_identical_to_baseline": false,
+    "output_types": [
+      "stream",
+      "display_data",
+      "display_data",
+      "error"
+    ],
+    "errors": [
+      {
+        "name": "Exception",
+        "message": "data did not match any variant of untagged enum ModelWrapper at line 277156 column 3"
+      }
+    ]
+  },
+  {
+    "cell_index_zero_based": 3,
+    "type": "code",
+    "source_found_in_baseline": false,
+    "outputs_identical_to_baseline": false,
+    "output_types": [
+      "display_data",
+      "display_data",
+      "error"
+    ],
+    "errors": [
+      {
+        "name": "Exception",
+        "message": "data did not match any variant of untagged enum ModelWrapper at line 277156 column 3"
+      }
+    ]
+  },
+  {
+    "cell_index_zero_based": 4,
+    "type": "code",
+    "source_found_in_baseline": false,
+    "outputs_identical_to_baseline": false,
+    "output_types": [
+      "stream"
+    ],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 5,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 6,
+    "type": "code",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [
+      "stream",
+      "display_data"
+    ],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 7,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 8,
+    "type": "code",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [
+      "display_data"
+    ],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 9,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 10,
+    "type": "code",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [
+      "stream",
+      "display_data"
+    ],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 11,
+    "type": "markdown",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [],
+    "errors": []
+  },
+  {
+    "cell_index_zero_based": 12,
+    "type": "code",
+    "source_found_in_baseline": true,
+    "outputs_identical_to_baseline": true,
+    "output_types": [
+      "display_data"
+    ],
+    "errors": []
+  }
+]

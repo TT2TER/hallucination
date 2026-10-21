@@ -1,0 +1,61 @@
+--- MemVR/memvr.py
++++ LLaVA/memvr.py
+@@ -87,7 +87,7 @@
+             ffn_out = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+             adapter_out = torch.matmul(torch.matmul(x, self.adpt_w1.T), self.adpt_w2.T)
+             norm_adapter_out = (torch.mean(torch.abs(ffn_out)) / torch.mean(torch.abs((adapter_out)))) * adapter_out
+-            return (ffn_out*(1-self.retracing_ratio) + norm_adapter_out*self.retracing_ratio)
++            return (ffn_out*(1-self.retracing_ratio) + norm_adapter_out*self.retracing_ratio) #（5-6）
+             
+ 
+         return down_proj
+@@ -163,7 +163,7 @@
+     starting_layer = self.layers[0].mlp.starting_layer
+     ending_layer = self.layers[0].mlp.ending_layer
+     visual_retracing_event = False # to prevent multiple retracing event
+-    vision_retracing_sign  = False # to decide whether to add visual token in the next layer
++    vision_retracing_sign  = False # to decide whether apply_memvr_llamato add visual token in the next layer
+ 
+ 
+     for decoder_layer in self.layers:
+@@ -230,7 +230,7 @@
+             self.layers[layer].mlp.adpt_w2 = torch.nn.Parameter(torch.zeros_like(visual_token.T))
+             # print("\n added visual token with adatption channel at layer ", layer)
+                 
+-            vision_retracing_sign = False
++            vision_retracing_sign = False #重新置为不需要重新追踪
+ 
+ 
+             
+@@ -277,7 +277,7 @@
+ def prepare_inputs_labels_for_multimodal(
+     self, input_ids, position_ids, attention_mask, past_key_values, labels,
+     images, image_sizes=None
+-):
++): #为多模态准备标签，处理输入
+     vision_tower = self.get_vision_tower()
+     if vision_tower is None or images is None or input_ids.shape[1] == 1:
+         return input_ids, position_ids, attention_mask, past_key_values, None, labels
+--- MemVR/inference/inference_llava.py
++++ LLaVA/inference_llava.py
+@@ -14,7 +14,8 @@
+ 
+ from memvr import apply_memvr_llama, LlamaMLP
+ 
+-model_path = "./llava-v1.5-7b"
++# model_path = "./llava-v1.5-7b"
++model_path = "/root/autodl-tmp/llava-v1.5-7b"
+ 
+ device = "cuda:0"
+ 
+--- MemVR/eval_scripts/llava/mme.sh
++++ LLaVA/eval_scripts/llava/mme.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ 
+ python -m llava.eval.llava_model_vqa_loader \
+-    --model-path llava-v1.5-7b \
++    --model-path /root/autodl-tmp/llava-v1.5-7b \
+     --question-file ./playground/data/eval/MME/llava_mme.jsonl \
+     --image-folder ./playground/data/eval/MME/MME_Benchmark_release_version \
+     --answers-file ./playground/data/eval/MME/answers/llava-v1.5-7b/memvr.jsonl \

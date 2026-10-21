@@ -1,0 +1,130 @@
+--- MemVR/memvr.py
++++ hallucination/memvr.py
+@@ -38,6 +38,11 @@
+ 
+ import llava.model.llava_arch
+ 
++def set_visual_mask(model, mask):
++    """设置视觉mask到模型"""
++    model.model._visual_token_mask = mask
++
++
+ class LlamaMLP(nn.Module):
+ 
+     def __init__(self, config):
+@@ -63,7 +68,9 @@
+ 
+ 
+ 
++
+     def forward(self, x):
++        # print("Using MemVR")
+         if self.config.pretraining_tp > 1:
+             slice = self.intermediate_size // self.config.pretraining_tp
+             gate_proj_slices = self.gate_proj.weight.split(slice, dim=0)
+@@ -80,10 +87,10 @@
+                 F.linear(intermediate_states[i], down_proj_slices[i]) for i in range(self.config.pretraining_tp)
+             ]
+             down_proj = sum(down_proj)
+-        elif self.adpt_sign == 0:
++        elif self.adpt_sign == 0 :
+             down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+ 
+-        elif self.adpt_sign == 1:
++        elif self.adpt_sign == 1 :
+             ffn_out = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+             adapter_out = torch.matmul(torch.matmul(x, self.adpt_w1.T), self.adpt_w2.T)
+             norm_adapter_out = (torch.mean(torch.abs(ffn_out)) / torch.mean(torch.abs((adapter_out)))) * adapter_out
+@@ -164,6 +171,11 @@
+     ending_layer = self.layers[0].mlp.ending_layer
+     visual_retracing_event = False # to prevent multiple retracing event
+     vision_retracing_sign  = False # to decide whether to add visual token in the next layer
++    # ours
++    visual_token_mask = getattr(self, '_visual_token_mask', None)
++    # print("visual_token_mask", visual_token_mask)
++    # if visual_token_mask is not None:
++    #     self.layers[0].mlp.visual_token_mask = visual_token_mask
+ 
+ 
+     for decoder_layer in self.layers:
+@@ -223,7 +235,7 @@
+ 
+         # round n+1
+         # vision_retracing_sign is true, meaning that the visual token has been added. Now, clear the adaptation channel, reset the adpt_sign and vision_retracing_sign.
+-        if vision_retracing_sign == True:
++        if vision_retracing_sign == True and apply_memvr:
+ 
+             self.layers[layer].mlp.adpt_sign = 0
+             self.layers[layer].mlp.adpt_w1 = torch.nn.Parameter(torch.zeros_like(visual_token))
+@@ -237,16 +249,23 @@
+         # round n
+         # calculate the entropy of the top 10 logits. if the entropy is greater than the threshold, and the visual retracing event is not happening, and the layer is within the range of starting and ending layer, then add the visual token to the next layer with adaptation channel
+         # initialize the adaptation channel with the visual token
+-        if entropy > entropy_threshold and visual_retracing_event == False and layer > starting_layer and layer < ending_layer:
++        if entropy > entropy_threshold and visual_retracing_event == False and layer > starting_layer and layer < ending_layer and apply_memvr: #激活重看极致
+             
+             vision_retracing_sign = True
+-            visual_retracing_event = True
++            visual_retracing_event = True #确保只触发一次
++
++            #ours
++            
++            if visual_token_mask is not None:
++                # print("visual_token_mask is not None")
++                visual_token = visual_token[visual_token_mask.bool()]
+ 
+             self.layers[layer+1].mlp.adpt_sign = 1 # triggers the MemVR adaptation channel in MLP of the next layer
+             self.layers[layer+1].mlp.adpt_w1 = torch.nn.Parameter(torch.zeros_like(visual_token))
+             self.layers[layer+1].mlp.adpt_w2 = torch.nn.Parameter(torch.zeros_like(visual_token.T))
+             self.layers[layer+1].mlp.adpt_w1 += (torch.mean(torch.abs(self.layers[layer+1].mlp.up_proj.weight)) / (torch.mean(torch.abs(visual_token))))  * visual_token
+             self.layers[layer+1].mlp.adpt_w2 += (torch.mean(torch.abs(self.layers[layer+1].mlp.down_proj.weight)) / (torch.mean(torch.abs(visual_token))))  * visual_token.T
++            # print("visual token \n", visual_token.shape)
+ 
+             
+         # print("Extracted Top 10 largest scores:", formatted_top_k_scores)
+@@ -255,6 +274,7 @@
+         # print("Entropy of top 10 logits:", formatted_entropy, "\n")
+         entropy_list.append(formatted_entropy)
+         layer += 1
++        # print(f"Layer {layer} - Entropy: {formatted_entropy}")
+ 
+     hidden_states = self.norm(hidden_states)
+     if output_hidden_states:
+@@ -478,6 +498,37 @@
+     for layer in range(31):
+         self.model.layers[layer].mlp.retracing_ratio = retracing_ratio
+ 
++def activate_memvr(
++        self,
++        enable: bool = True,
++    ):
++    """
++    Activate or deactivate MemVR in the model.
++    """
++    if enable:
++        self.model.layers[0].mlp.apply_memvr = True
++    else:
++        self.model.layers[0].mlp.apply_memvr = False
++
++def apply_our_llama(
++        self,
++        starting_layer: int,
++        ending_layer: int,
++        entropy_threshold: float,
++        retracing_ratio: float
++    ):
++    transformers.models.llama.modeling_llama.LlamaMLP = LlamaMLP
++    transformers.models.llama.modeling_llama.LlamaModel.forward = forward
++    llava.model.llava_arch.LlavaMetaForCausalLM.prepare_inputs_labels_for_multimodal = prepare_inputs_labels_for_multimodal
++
++    self.model.lm_head = self.lm_head
++    self.model.layers[0].mlp.apply_memvr = True
++    self.model.layers[0].mlp.starting_layer = starting_layer
++    self.model.layers[0].mlp.ending_layer = ending_layer
++    self.model.layers[0].mlp.entropy_threshold = entropy_threshold
++    for layer in range(31):
++        self.model.layers[layer].mlp.retracing_ratio = retracing_ratio
++
+ def apply_memvr_qwen(
+         self,
+         starting_layer: int,

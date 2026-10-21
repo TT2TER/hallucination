@@ -1,0 +1,21 @@
+diff --git a/utils.py b/utils.py
+index 6e7d266..bd2961d 100644
+--- a/utils.py
++++ b/utils.py
+@@ -76,12 +76,12 @@ def att_from_att_image_adaptive(att_map,look_rate):
+     # mask = np.where(att_map >= avg_att, 1, 0)
+ 
+     # return mask
+-    # 计算前 25% 阈值
++    # 计算前 look_rate% 阈值
+     rate=100-look_rate
+-    threshold = np.percentile(att_map, rate)  # 75百分位数，即前25%最大值
++    threshold = np.percentile(att_map, rate)
+ 
+-    # 生成 mask：大于等于阈值设为 1，否则设为 0
+-    mask = np.where(att_map >= threshold, 1, 0)
++    # 生成 mask：小于等于阈值设为 1，否则设为 0
++    mask = np.where(att_map <= threshold, 1, 0)
+ 
+     return mask
+ 
